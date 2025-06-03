@@ -1,0 +1,14 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Центровка по горизонтали */
+  gap: 15px; /* Отступы между кнопками */
+  margin: 0 auto; /* Центровка самого блока */
+  width: 80%; /* Ширина по содержимому (или 100% при необходимости) */
+  padding-top: 20px;
+}
+
+.content li {
+  list-style: none;
+  width: 100%;
+}
