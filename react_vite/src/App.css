@@ -1,0 +1,12 @@
+.base{
+  background: repeating-linear-gradient(
+    45deg,
+    black,
+    black 10px,
+    green 10px,
+    green 20px
+  );
+  width: 100vw;
+  height: 100vh;
+}
+
