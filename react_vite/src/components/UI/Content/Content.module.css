@@ -6,9 +6,31 @@
   margin: 0 auto; /* Центровка самого блока */
   width: 80%; /* Ширина по содержимому (или 100% при необходимости) */
   padding-top: 20px;
+  height:50%;
+  padding-bottom:30px ;
 }
 
 .content li {
   list-style: none;
   width: 100%;
+}
+.content li:last-child {
+  margin-top: auto;
+  animation: pulse 2s infinite;
+}
+
+/* Определение анимации пульсации */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1); /* немного увеличиваем размер */
+    opacity: 0.7; /* чуть уменьшаем прозрачность */
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

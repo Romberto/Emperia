@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "./Header.module.css";
 import { Button } from "../Button/Button";
-import logo from "../../../assets/logo.png";
+import logo from "../../../assets/moto.png";
 
 export const Header: React.FC = () => {
   return (

@@ -1,5 +1,7 @@
 
-
+:root{
+  --green: #02e602;
+}
 
 *{
   margin: 0;
