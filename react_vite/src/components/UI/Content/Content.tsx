@@ -2,6 +2,7 @@ import React from "react";
 import styled from "./Content.module.css";
 import { Button } from "../Button/Button";
 import { Link } from "react-router";
+import { SOSButton } from "../SOSButton/SOSButton";
 
 export const Content: React.FC = () => {
   return (
@@ -34,9 +35,7 @@ export const Content: React.FC = () => {
            <li><Link to={'/sales'}><Button variant="white" fontSize={20}>Объявления</Button></Link></li>*/}
         <li>
           <Link to={"/sos"}>
-            <Button variant="red" fontSize={60}>
-              SOS
-            </Button>
+            <SOSButton />
           </Link>
         </li>
       </ul>
