@@ -1,10 +1,11 @@
 from fastapi import APIRouter
-from fastapi.responses import JSONResponse
+from sqlalchemy.dialects.oracle.dictionary import all_users
+from .v1 import router as v1_router
+from core.config import settings
 
 router = APIRouter(
-    prefix="/api"
     )
 
-@router.get("/health")
-async def health_check():
-    return JSONResponse(content={"status": "ok"})
+router.include_router(v1_router)
+
+

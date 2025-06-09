@@ -29,6 +29,7 @@ react_vite/*.sw?
 fast_application/__pycache__/
 fast_application/*.py[cod]
 fast_application/*$py.class
+fast_application/certs/*
 
 # C extensions
 fast_application/*.so

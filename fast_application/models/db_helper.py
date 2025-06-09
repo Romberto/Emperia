@@ -9,7 +9,7 @@ class DataBaseHelper:
             url=url, echo=echo, echo_pool=echo_pool, pool_size=pool_size, max_overflow=max_overflow, )
 
         self.session_factory = async_sessionmaker(
-            bind=self.engine, autoflush=False, autocommit=False, expire_or_commit=False, )
+            bind=self.engine, autoflush=False, autocommit=False, expire_on_commit=False, )
 
     async def dispose(self):
         await self.engine.dispose()
