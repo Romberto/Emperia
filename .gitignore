@@ -66,7 +66,7 @@ fast_application/__pycache__/
 # Installer logs
 fast_application/pip-log.txt
 fast_application/pip-delete-this-directory.txt
-
+fast_application/models/__pycache__/
 # Unit test / coverage reports
 fast_application/htmlcov/
 .tox/
