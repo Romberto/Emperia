@@ -26,7 +26,7 @@ react_vite/*.sln
 react_vite/*.sw?
 
 # Byte-compiled / optimized / DLL files
-fast_application/__pycache__/
+fast_application/__pycache__/*
 fast_application/*.py[cod]
 fast_application/*$py.class
 
