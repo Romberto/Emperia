@@ -36,6 +36,9 @@ fast_application/*.so
 # Distribution / packaging
 fast_application/.Python
 fast_application/build/
+fast_application/__pycache__/main.cpython-312.pyc
+fast_application/core/__pycache_/
+fast_application/api/__pycache__/
 fast_application/develop-eggs/
 fast_application/dist/
 fast_application/downloads/
