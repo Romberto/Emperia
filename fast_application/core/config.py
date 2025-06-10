@@ -7,15 +7,20 @@ class RunConfig(BaseModel):
     port: int = 8000
 
 
+class ApiV1Prefix(BaseModel):
+    prefix:str = "/v1"
+    user:str = '/user'
+
 class ApiPrefix(BaseModel):
     prefix: str = '/api'
+    v1: ApiV1Prefix = ApiV1Prefix()
 
 
 class DataBaseConfig(BaseModel):
     url: PostgresDsn
     echo: bool = False
     echo_pool: bool = False
-    max_overflow: int = 10,
+    max_overflow: int = 10
     pool_size: int = 50
     naming_convention: dict[str, str] = {
         "ix": "ix_%(column_0_label)s",
