@@ -1,0 +1,1 @@
+APP_CONFIG__DB__URL=postgresql+asyncpg://shop_user:shop_pass123@localhost:5432/shop

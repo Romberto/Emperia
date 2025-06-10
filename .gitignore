@@ -55,6 +55,7 @@ fast_application/*.egg-info/
 fast_application/.installed.cfg
 *.egg
 fast_application/MANIFEST
+fast_application/__pycache__/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
