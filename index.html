@@ -1,14 +1,36 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/Emperia/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React + TS</title>
-    <script type="module" crossorigin src="/Emperia/assets/index-BulLe12G.js"></script>
+    <script type="module" crossorigin src="/Emperia/assets/index-CksqLfEM.js"></script>
     <link rel="stylesheet" crossorigin href="/Emperia/assets/index-D8I3B_rA.css">
   </head>
   <body>
     <div id="root"></div>
+    <script
+      async
+      src="https://telegram.org/js/telegram-widget.js?22"
+      data-telegram-login="SimplyMenuBot"
+      data-size="large"
+      data-onauth="onTelegramAuth(user)"
+      data-request-access="write"
+    ></script>
+    <script type="text/javascript">
+      function onTelegramAuth(user) {
+        alert(
+          "Logged in as " +
+            user.first_name +
+            " " +
+            user.last_name +
+            " (" +
+            user.id +
+            (user.username ? ", @" + user.username : "") +
+            ")"
+        );
+      }
+    </script>
   </body>
 </html>
