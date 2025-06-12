@@ -24,6 +24,7 @@ react_vite/*.ntvs*
 react_vite/*.njsproj
 react_vite/*.sln
 react_vite/*.sw?
+.idea
 
 # Byte-compiled / optimized / DLL files
 fast_application/__pycache__/*
@@ -56,6 +57,7 @@ fast_application/.installed.cfg
 *.egg
 fast_application/MANIFEST
 fast_application/__pycache__/
+fast_application/telegram_test_data.py
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

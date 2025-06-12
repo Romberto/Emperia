@@ -1,9 +1,12 @@
 import React from "react";
 import styled from "./Header.module.css";
-import { Button } from "../Button/Button";
 import logo from "../../../assets/moto.png";
+import TelegramLoginButton from "../TelegramButton/TelegramButton";
 
 export const Header: React.FC = () => {
+  const handleTelegramAuth = (user: any) => {
+    console.log("Пользователь Telegram авторизован:", user);
+  };
   return (
     <header>
       <a href="#">
@@ -14,8 +17,10 @@ export const Header: React.FC = () => {
         />
       </a>
       <div className={styled.auth}>
-        <Button variant="green">Воити</Button>
-        <Button variant="green">Зарегистрироваться</Button>
+        <TelegramLoginButton
+          botName="SimplyMenuBot"
+          onAuth={handleTelegramAuth}
+        />
       </div>
     </header>
   );

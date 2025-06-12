@@ -4,7 +4,7 @@ from sqlalchemy import MetaData
 from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped
 from sqlalchemy.dialects.postgresql import UUID
 
-from core.config import settings
+from fast_application.core.config import settings
 
 
 class Base(DeclarativeBase):
