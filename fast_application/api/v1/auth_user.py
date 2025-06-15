@@ -17,12 +17,9 @@ BOT_TOKEN = settings.bot_token
 
 
 def verify_telegram_auth(data: dict) -> bool:
-    print("*"*50)
     auth_hash = data.pop("hash")
     data_check_string = "\n".join(f"{k}={v}" for k, v in sorted(data.items()))
     secret_key = hashlib.sha256(BOT_TOKEN.encode()).digest()
-    print(secret_key)
-    print(auth_hash)
     hmac_hash = hmac.new(secret_key, data_check_string.encode(), hashlib.sha256).hexdigest()
     return hmac_hash == auth_hash
 
@@ -34,7 +31,7 @@ def verify_telegram_auth(data: dict) -> bool:
 async def telegram_login(payload: TelegramAuthPayload, session: AsyncSession = Depends(db_helper.session_getter)):
     data = payload.model_dump()
     if not verify_telegram_auth(data.copy()):
-        raise HTTPException(status_code=401, detail="Invalid Telegram data")
+        raise HTTPException(status_code=401, detail="Invalid Telegram data!")
 
     telegram_id = data["id"]
     result = await session.execute(
