@@ -3,8 +3,17 @@ import styled from "./Header.module.css";
 import logo from "../../../assets/moto.png";
 import TelegramLoginButton from "../TelegramButton/TelegramButton";
 
+type UserTelegramType = {
+  id: number;
+  first_name?: string;
+  last_name?: string;
+  username?: string;
+  auth_date: number;
+  hash: string;
+};
+
 export const Header: React.FC = () => {
-  const handleTelegramAuth = (user: any) => {
+  const handleTelegramAuth = (user: UserTelegramType) => {
     console.log("Пользователь Telegram авторизован:", user);
   };
   return (
