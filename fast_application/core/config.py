@@ -1,7 +1,10 @@
+from pathlib import Path
+
 from pydantic import BaseModel, PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 class RunConfig(BaseModel):
     host: str = "0.0.0.0"
     port: int = 8000
@@ -30,6 +33,13 @@ class DataBaseConfig(BaseModel):
         "pk": "pk_%(table_name)s",
         }
 
+class AuthJWT(BaseModel):
+    private_key_path: Path = BASE_DIR / "keys" / "jwt-private.pem"
+    public_key_path:Path = BASE_DIR / "keys" / "jwt-public.pem"
+    algorithm: str = 'RS256'
+    access_token_expire_minutes: int = 20
+    refresh_token_expire_days: int = 7
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -42,6 +52,7 @@ class Settings(BaseSettings):
     api: ApiPrefix = ApiPrefix()
     db: DataBaseConfig
     bot_token:str
+    auth_jwt: AuthJWT = AuthJWT()
 
 
 settings = Settings()
