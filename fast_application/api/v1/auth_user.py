@@ -9,7 +9,7 @@ from api.crud.jwt_utils import encode_jwt
 from fast_application.core.config import settings
 from models.db_helper import db_helper
 from models.user import UserBase
-from shcemes.auth_sheams import TelegramAuthPayload
+from shcemes.auth_sheams import TelegramAuthPayload, TokenPair
 
 router = APIRouter(
     prefix="/auth", )
@@ -27,9 +27,7 @@ def verify_telegram_auth(data: dict) -> bool:
     return hmac.compare_digest(hmac_hash, auth_hash)
 
 
-"""
- Получаю данные от телеграмма, с помощью бот токена расшифровываю хеш
-"""
+
 
 
 @router.post("/telegram")
@@ -51,10 +49,12 @@ async def telegram_login(payload: TelegramAuthPayload, session: AsyncSession = D
         await session.commit()
         await session.refresh(user)
     token = encode_jwt(payload={
-        "user":str(user.id),
+        "sub":str(user.id),
         "first_name": user.first_name,
         "telegram_id" : user.telegram_id
         })
-    return token
+    return TokenPair(
+        access_token=token
+        )
 
 
