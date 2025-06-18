@@ -5,6 +5,7 @@ from fastapi import Depends, HTTPException, APIRouter
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from api.crud.jwt_utils import encode_jwt
 from fast_application.core.config import settings
 from models.db_helper import db_helper
 from models.user import UserBase
@@ -43,13 +44,17 @@ async def telegram_login(payload: TelegramAuthPayload, session: AsyncSession = D
     user = result.scalars().first()
 
     if not user:
-        user = UserBase(
+        user:UserBase = UserBase(
             telegram_id=telegram_id, first_name=data["first_name"], username=data.get("username"),
             photo_url=data.get("photo_url"), )
         session.add(user)
         await session.commit()
         await session.refresh(user)
+    token = encode_jwt(payload={
+        "user":str(user.id),
+        "first_name": user.first_name,
+        "telegram_id" : user.telegram_id
+        })
+    return token
 
-    return user
 
-    # token = create_access_token({"sub": str(user.id)})  #  # return {"access_token": token}

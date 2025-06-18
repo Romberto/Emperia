@@ -33,7 +33,7 @@ fast_application/*$py.class
 
 # C extensions
 fast_application/*.so
-
+fast_application/keys
 # Distribution / packaging
 fast_application/.Python
 fast_application/build/
