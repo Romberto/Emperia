@@ -9,4 +9,4 @@ class UserBase(Base):
     first_name:Mapped[str | None] = mapped_column(default=None)
     last_name:Mapped[str | None] = mapped_column(default=None)
     username:Mapped[str | None] = mapped_column(default=None)
-    photo_ur:Mapped[str | None] = mapped_column(default=None)
+    photo_url:Mapped[str | None] = mapped_column(default=None)

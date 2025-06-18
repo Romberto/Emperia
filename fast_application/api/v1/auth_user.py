@@ -11,23 +11,27 @@ from models.user import UserBase
 from shcemes.auth_sheams import TelegramAuthPayload
 
 router = APIRouter(
-    prefix="/auth",
-    )
+    prefix="/auth", )
 BOT_TOKEN = settings.bot_token
 
 
 def verify_telegram_auth(data: dict) -> bool:
-    auth_hash = data.pop("hash")
-    data_check_string = "\n".join(f"{k}={v}" for k, v in sorted(data.items()))
-    secret_key = hashlib.sha256(BOT_TOKEN.encode()).digest()
-    hmac_hash = hmac.new(secret_key, data_check_string.encode(), hashlib.sha256).hexdigest()
-    return hmac_hash == auth_hash
+    auth_hash = data.get("hash")
+    if not auth_hash:
+        return False
+    check_data = {k: str(v) for k, v in data.items() if k != "hash" and v is not None}
+    data_check_string = "\n".join(f"{k}={v}" for k, v in sorted(check_data.items()))
+    secret_key = hashlib.sha256(BOT_TOKEN.encode("utf-8")).digest()
+    hmac_hash = hmac.new(secret_key, data_check_string.encode("utf-8"), hashlib.sha256).hexdigest()
+    return hmac.compare_digest(hmac_hash, auth_hash)
+
 
 """
  Получаю данные от телеграмма, с помощью бот токена расшифровываю хеш
 """
-@router.post("/telegram")
 
+
+@router.post("/telegram")
 async def telegram_login(payload: TelegramAuthPayload, session: AsyncSession = Depends(db_helper.session_getter)):
     data = payload.model_dump()
     if not verify_telegram_auth(data.copy()):
