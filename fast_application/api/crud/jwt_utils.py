@@ -1,6 +1,8 @@
 from datetime import datetime, timezone, timedelta
 
 import jwt
+from fastapi import Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from core.config import settings
 
@@ -38,3 +40,11 @@ def decode_jwt(token:str|bytes, public_key:str = settings.auth_jwt.public_key_pa
         algorithms=[algorithm]
         )
     return decode
+
+http_bearer = HTTPBearer()
+
+
+async def _get_current_payload(token:HTTPAuthorizationCredentials = Depends(http_bearer))->dict:
+    token = token.credentials
+    payload = decode_jwt(token)
+    return payload
