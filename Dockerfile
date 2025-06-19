@@ -15,4 +15,4 @@ RUN pip install --no-cache-dir -r requarement.txt
 ENV PYTHONPATH=/app
 
 # Запуск
-CMD ["uvicorn", "fast_application.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "fast_application.main:app_main", "--host", "0.0.0.0", "--port", "8000"]
