@@ -1,8 +1,11 @@
 from datetime import datetime, timezone, timedelta
 
 import jwt
+
+from jwt.exceptions import InvalidTokenError
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from starlette import status
 
 from core.config import settings
 
@@ -46,8 +49,8 @@ http_bearer = HTTPBearer()
 
 async def _get_current_payload(token:HTTPAuthorizationCredentials = Depends(http_bearer))->dict:
     token = token.credentials
-    payload = decode_jwt(token)
-    if payload:
-        return payload
-    else:
-        raise HTTPException(status_code=401, detail="token invalid")
+    try:
+        payload = decode_jwt(token)
+    except InvalidTokenError as e:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="token invalid")
+    return payload
