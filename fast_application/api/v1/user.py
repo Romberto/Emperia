@@ -3,10 +3,10 @@ from sys import prefix
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from api.crud.jwt_utils import _get_current_payload
-from api.crud.user_utils import _get_all_user, _get_current_user
-from models.db_helper import db_helper
-from shcemes.auth_sheams import UserRead
+from fast_application.api.crud.jwt_utils import _get_current_payload
+from fast_application.api.crud.user_utils import _get_all_user, _get_current_user
+from fast_application.models.db_helper import db_helper
+from fast_application.shcemes.auth_sheams import UserRead
 
 router = APIRouter(
     tags=['Users'],

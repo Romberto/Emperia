@@ -3,7 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.exceptions import HTTPException
 
-from models.user import UserBase
+from fast_application.models.user import UserBase
 
 
 async def _get_current_user(session: AsyncSession, payload: dict):

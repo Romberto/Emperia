@@ -5,13 +5,17 @@ from fast_application.core.config import settings
 
 class DataBaseHelper:
     def __init__(self, url:str, echo:bool=False, echo_pool:bool=False,max_overflow:int=10, pool_size:int =15):
-        self.engine: AsyncEngine = create_async_engine(
-            url=url,
-            echo=echo,
-            echo_pool=echo_pool,
-            max_overflow =max_overflow,
-            pool_size=pool_size
-            )
+        engine_kwargs = {
+            "echo": echo,
+            "echo_pool": echo_pool,
+            "max_overflow": max_overflow,
+            "pool_size": pool_size,
+        }
+        if "sqlite" in url.lower():
+            engine_kwargs.pop("max_overflow", None)
+            engine_kwargs.pop("pool_size", None)
+
+        self.engine: AsyncEngine = create_async_engine(url=url, **engine_kwargs)
 
         self.session_factory:async_sessionmaker[AsyncSession] = async_sessionmaker(
             bind=self.engine,

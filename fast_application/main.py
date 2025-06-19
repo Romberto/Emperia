@@ -3,9 +3,9 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI
-from api import router as api_router
-from fast_application.core.config import settings
-from models.db_helper import db_helper
+from fast_application.api import router as api_router # Corrected import
+from fast_application.core.config import settings # Corrected import (assuming core is also under fast_application)
+from fast_application.models.db_helper import db_helper # Corrected import
 
 @asynccontextmanager
 async def lifespan(app:FastAPI):
