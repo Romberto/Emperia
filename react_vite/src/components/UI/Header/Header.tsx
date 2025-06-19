@@ -2,6 +2,7 @@ import React from "react";
 import styled from "./Header.module.css";
 import logo from "../../../assets/moto.png";
 import TelegramLoginButton from "../TelegramButton/TelegramButton";
+import axios from 'axios';
 
 type UserTelegramType = {
   id: number;
@@ -13,8 +14,8 @@ type UserTelegramType = {
 };
 
 export const Header: React.FC = () => {
-  const handleTelegramAuth = (user: UserTelegramType) => {
-    console.log("Пользователь Telegram авторизован:", user);
+  const handleTelegramAuth = async (user: UserTelegramType) => {
+    
   };
   return (
     <header>
