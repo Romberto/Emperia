@@ -1,7 +1,7 @@
 from datetime import datetime, timezone, timedelta
 
 import jwt
-from fastapi import Depends
+from fastapi import Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from core.config import settings
@@ -47,4 +47,7 @@ http_bearer = HTTPBearer()
 async def _get_current_payload(token:HTTPAuthorizationCredentials = Depends(http_bearer))->dict:
     token = token.credentials
     payload = decode_jwt(token)
-    return payload
+    if payload:
+        return payload
+    else:
+        raise HTTPException(status_code=401, detail="token invalid")
