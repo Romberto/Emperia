@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from api.crud.jwt_utils import encode_jwt, _get_payload_refresh_token, Token
 from api.crud.user_utils import _get_current_user
-from fast_application.core.config import settings
+from core.config import settings
 from models.db_helper import db_helper
 from models.user import UserBase
 from shcemes.auth_sheams import TelegramAuthPayload, TokenPair

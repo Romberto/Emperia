@@ -6,7 +6,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from api.crud.jwt_utils import _get_current_payload
 from api.crud.user_utils import _get_all_user, _get_current_user
 from models.db_helper import db_helper
-from shcemes.auth_sheams import UserRead
 
 router = APIRouter(
     tags=['Users'],
