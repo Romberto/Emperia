@@ -60,6 +60,5 @@ services:
       --email korhoff@mail.ru --agree-tos --no-eff-email
       -d cafeapi.ru --non-interactive || true"
 
-
 volumes:
   pgdata:
