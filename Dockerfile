@@ -1,18 +1,17 @@
 FROM python:3.11-slim
 
+# Установим рабочую директорию
 WORKDIR /app
 
-# Скопировать всю папку fast_application внутрь контейнера
+# Копируем весь код в контейнер в /app
 COPY ./fast_application /app/fast_application
-
-# requirements.txt находится внутри fast_application, скопируем отдельно
 COPY ./fast_application/requarement.txt /app/requarement.txt
 
-# Установим зависимости
+# Устанавливаем зависимости
 RUN pip install --no-cache-dir -r requarement.txt
 
-# Добавим PYTHONPATH, чтобы Python находил fast_application
+# Устанавливаем PYTHONPATH, чтобы fast_application стал импортируемым модулем
 ENV PYTHONPATH=/app
 
-# Запуск
-CMD ["uvicorn", "fast_application.main:app_main", "--host", "0.0.0.0", "--port", "8000"]
+# Запускаем uvicorn
+CMD ["uvicorn", "fast_application.main:app", "--host", "0.0.0.0", "--port", "8000"]
