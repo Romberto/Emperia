@@ -48,13 +48,18 @@ async def telegram_login(payload: TelegramAuthPayload, session: AsyncSession = D
         session.add(user)
         await session.commit()
         await session.refresh(user)
-    token = encode_jwt(payload={
+    access_token = encode_jwt(payload={
         "sub":str(user.id),
         "first_name": user.first_name,
         "telegram_id" : user.telegram_id
         })
+    refresh_token = encode_jwt(payload={
+        "sub": str(user.id)
+        },
+        expire_timedelta=settings.auth_jwt.refresh_token_expire_days)
     return TokenPair(
-        access_token=token
+        access_token=access_token,
+        refresh_token=refresh_token
         )
 
 
