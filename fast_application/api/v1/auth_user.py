@@ -5,13 +5,15 @@ from fastapi import Depends, HTTPException, APIRouter
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from api.crud.jwt_utils import encode_jwt
+from api.crud.jwt_utils import encode_jwt, _get_payload_refresh_token, Token
+from api.crud.user_utils import _get_current_user
 from fast_application.core.config import settings
 from models.db_helper import db_helper
 from models.user import UserBase
 from shcemes.auth_sheams import TelegramAuthPayload, TokenPair
 
 router = APIRouter(
+    tags=['Auth'],
     prefix="/auth", )
 BOT_TOKEN = settings.bot_token
 
@@ -27,10 +29,7 @@ def verify_telegram_auth(data: dict) -> bool:
     return hmac.compare_digest(hmac_hash, auth_hash)
 
 
-
-
-
-@router.post("/telegram")
+@router.post("/telegram/login", response_model=TokenPair, response_model_exclude_none=True)
 async def telegram_login(payload: TelegramAuthPayload, session: AsyncSession = Depends(db_helper.session_getter)):
     data = payload.model_dump()
     if not verify_telegram_auth(data.copy()):
@@ -42,24 +41,32 @@ async def telegram_login(payload: TelegramAuthPayload, session: AsyncSession = D
     user = result.scalars().first()
 
     if not user:
-        user:UserBase = UserBase(
+        user: UserBase = UserBase(
             telegram_id=telegram_id, first_name=data["first_name"], username=data.get("username"),
             photo_url=data.get("photo_url"), )
         session.add(user)
         await session.commit()
         await session.refresh(user)
-    access_token = encode_jwt(payload={
-        "sub":str(user.id),
-        "first_name": user.first_name,
-        "telegram_id" : user.telegram_id
-        })
-    refresh_token = encode_jwt(payload={
-        "sub": str(user.id)
-        },
-        expire_timedelta=settings.auth_jwt.refresh_token_expire_days)
+    access_token = encode_jwt(
+        payload={
+            "sub": str(user.id), "first_name": user.first_name, "telegram_id": user.telegram_id,
+            }, token_type=Token.access, )
+    _refresh_token = encode_jwt(
+        payload={
+            "sub": str(user.id),
+            }, expire_timedelta=settings.auth_jwt.refresh_token_expire_days, token_type=Token.refresh, )
     return TokenPair(
-        access_token=access_token,
-        refresh_token=refresh_token
+        access_token=access_token, refresh_token=_refresh_token)
+
+@router.post("/telegram/refresh", response_model=TokenPair, response_model_exclude_none=True)
+async def refresh_token(payload:dict = Depends(_get_payload_refresh_token), session: AsyncSession = Depends(db_helper.session_getter)):
+    user = await _get_current_user(session=session, payload=payload)
+    _access_token = encode_jwt(
+        payload={
+            "sub": str(user.id), "first_name": user.first_name, "telegram_id": user.telegram_id,
+            }, token_type=Token.access, )
+    return TokenPair(
+        access_token=_access_token
         )
 
 
