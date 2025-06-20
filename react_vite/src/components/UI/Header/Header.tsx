@@ -2,7 +2,7 @@
 
 import { useDispatch } from "react-redux";// создадим ниже
 import styled from "./Header.module.css";
-import logo from "../../assets/logo.svg";
+import  logo  from "../../../assets/moto.png";
 import { setUser } from "../../../features/auth/authSlice";
 import { useLoginTelegramMutation, type TelegramAuthPayload } from "../../../features/auth/authApi";
 import TelegramLoginButton from "../TelegramButton/TelegramButton";
