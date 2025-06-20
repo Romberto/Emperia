@@ -1,44 +1,46 @@
-import React from "react";
-import styled from "./Header.module.css";
-import logo from "../../../assets/moto.png";
-import TelegramLoginButton from "../TelegramButton/TelegramButton";
-import axios from "axios";
+// Header.tsx
 
-type UserTelegramType = {
-  id: number;
-  first_name?: string;
-  last_name?: string;
-  username?: string;
-  auth_date: number;
-  hash: string;
-};
+import { useDispatch } from "react-redux";// создадим ниже
+import styled from "./Header.module.css";
+import logo from "../../assets/logo.svg";
+import { setUser } from "../../../features/auth/authSlice";
+import { useLoginTelegramMutation, type TelegramAuthPayload } from "../../../features/auth/authApi";
+import TelegramLoginButton from "../TelegramButton/TelegramButton";
 
 export const Header: React.FC = () => {
-  const handleTelegramAuth = async (user: UserTelegramType) => {
+  const [loginTelegram, { isLoading }] = useLoginTelegramMutation();
+  const dispatch = useDispatch();
+
+  const handleTelegramAuth = async (user: TelegramAuthPayload) => {
     try {
-      console.log("Пользователь Telegram авторизован!!!:", user);
+      const {
+        id,
+        first_name,
+        last_name,
+        username,
+        photo_url,
+        auth_date,
+        hash,
+      } = user;
+      const payload = {
+        id,
+        first_name,
+        last_name,
+        username,
+        photo_url,
+        auth_date,
+        hash,
+      };
 
-      const response = await axios.post(
-        "https://cafeapi.ru/api/v1/auth/telegram/login",
-        user,
-        {
-          withCredentials: true, // важно, если сервер ставит cookie
-        }
-      );
+      const { access_token } = await loginTelegram(payload).unwrap();
+      localStorage.setItem("access_token", access_token);
 
-      const { access_token } = response.data;
-
-      if (access_token) {
-        localStorage.setItem("access_token", access_token);
-      }
-
-
-
-      console.log("Авторизация успешна");
-    } catch (error) {
-      console.error("Ошибка при Telegram авторизации:", error);
+      dispatch(setUser({ username })); // сохраним юзернейм в store
+    } catch (e) {
+      console.error("Ошибка авторизации через Telegram:", e);
     }
   };
+
   return (
     <header>
       <a href="#">
@@ -49,9 +51,11 @@ export const Header: React.FC = () => {
         />
       </a>
       <div className={styled.auth}>
+        {isLoading && <p>Загрузка...</p>}
         <TelegramLoginButton
           botName="SimplyMenuBot"
           onAuth={handleTelegramAuth}
+          requestAccess="write"
         />
       </div>
     </header>

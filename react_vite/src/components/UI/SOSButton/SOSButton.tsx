@@ -2,15 +2,16 @@ import React from "react";
 import { Button } from "../Button/Button";
 
 export const SOSButton: React.FC<{ username?: string }> = ({ username }) => {
+
   const sendSOS = async () => {
     if (!navigator.geolocation) {
       alert("Геолокация не поддерживается браузером.");
       return;
     }
-    if (!username){
-        alert("Проёдите регистрацию или авторизацию")
+    if (!username) {
+      /* здесь нужна функция  */
 
-        return
+      return;
     }
 
     navigator.geolocation.getCurrentPosition(
@@ -22,7 +23,7 @@ export const SOSButton: React.FC<{ username?: string }> = ({ username }) => {
           lat: latitude,
           lng: longitude,
         };
-        console.log(payload)
+        console.log(payload);
         try {
           const response = await fetch("/api/sos", {
             method: "POST",
@@ -45,5 +46,9 @@ export const SOSButton: React.FC<{ username?: string }> = ({ username }) => {
     );
   };
 
-  return <Button onClick={sendSOS} variant="red" fontSize={60}>SOS</Button>;
+  return (
+    <Button onClick={sendSOS} variant="red" fontSize={60}>
+      SOS
+    </Button>
+  );
 };
