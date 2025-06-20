@@ -22,7 +22,8 @@ app_main.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",  # dev
-        "https://romberto.github.io",     # прод
+        "https://romberto.github.io",
+        "*"# прод
     ],
     allow_credentials=True,
     allow_methods=["*"],
