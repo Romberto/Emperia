@@ -1,35 +1,103 @@
-import React from "react";
-import styled from "./Header.module.css";
-import logo from "../../../assets/moto.png";
-import TelegramLoginButton from "../TelegramButton/TelegramButton";
+// Header.tsx
 
-type UserTelegramType = {
-  id: number;
-  first_name?: string;
-  last_name?: string;
-  username?: string;
-  auth_date: number;
-  hash: string;
-};
+import { useAppDispatch } from "../../../hook/useAppDispatch"; // создадим ниже
+import styled from "./Header.module.css";
+import logo from "../../../assets/logo-moto.svg";
+import { setUser } from "../../../features/auth/authSlice";
+import {
+  useLoginTelegramMutation,
+  type TelegramAuthPayload,
+} from "../../../features/auth/authApi";
+import TelegramButton from "../TelegramButton/TelegramButton";
+import { useAppSelector } from "../../../hook/useAppSelector";
+import { getCityFromLocation } from "../../../features/geo/geolocation";
+import { useEffect, useState } from "react";
 
 export const Header: React.FC = () => {
-  const handleTelegramAuth = (user: UserTelegramType) => {
-    console.log("Пользователь Telegram авторизован:", user);
+  const [city, setSity] = useState("");
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const fetchLocation = async () => {
+      const location = await getCityFromLocation();
+
+      if (location.error) {
+        console.error("Ошибка геолокации:", location.error);
+      } else {
+        {
+          location.city &&
+            (localStorage.setItem("city", location.city),
+            setSity(location.city));
+        }
+      }
+    };
+    fetchLocation();
+  }, []);
+  const { username, first_name, photo_url } = useAppSelector(
+    (state) => state.auth
+  );
+  const [loginTelegram] = useLoginTelegramMutation();
+
+  const handleTelegramAuth = async (user: TelegramAuthPayload) => {
+    try {
+      const {
+        id,
+        first_name,
+        last_name,
+        username,
+        photo_url,
+        auth_date,
+        hash,
+      } = user;
+
+      const payload = {
+        id,
+        first_name,
+        last_name,
+        username,
+        photo_url,
+        auth_date,
+        hash,
+      };
+
+      const { access_token, refresh_token } = await loginTelegram(
+        payload
+      ).unwrap();
+
+      localStorage.setItem("access_token", access_token);
+      localStorage.setItem("tg_first_name", first_name);
+      localStorage.setItem("refresh_token", refresh_token);
+      {
+        username && localStorage.setItem("username", username);
+      }
+      {
+        photo_url && localStorage.setItem("tg_photo_url", photo_url);
+      }
+      dispatch(setUser({ username, first_name, photo_url }));
+    } catch (err) {
+      console.error("Ошибка авторизации:", err);
+    }
   };
   return (
-    <header>
+    <header className={styled.header}>
       <a href="#">
-        <img
-          className={styled.logo__img}
-          src={logo}
-          alt="логотип клуба в виде английских букв I, а так же W"
-        />
+        <img className={styled.logo__img} src={logo} alt="Логотип" />
       </a>
       <div className={styled.auth}>
-        <TelegramLoginButton
-          botName="SimplyMenuBot"
-          onAuth={handleTelegramAuth}
-        />
+        {!username ? (
+          <TelegramButton
+            botName="SimplyMenuBot"
+            onAuth={handleTelegramAuth}
+            requestAccess="write"
+          />
+        ) : (
+          <div className={styled.user}>
+            {photo_url && (
+              <img src={photo_url} alt="avatar" className={styled.avatar} />
+            )}
+            <span>{first_name || username}</span>
+            <span>{city}</span>
+          </div>
+        )}
       </div>
     </header>
   );
