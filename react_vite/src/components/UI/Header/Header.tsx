@@ -72,13 +72,11 @@ export const Header: React.FC = () => {
       {
         photo_url && localStorage.setItem("tg_photo_url", photo_url);
       }
-
       dispatch(setUser({ username, first_name, photo_url }));
     } catch (err) {
       console.error("Ошибка авторизации:", err);
     }
   };
-
   return (
     <header className={styled.header}>
       <a href="#">
