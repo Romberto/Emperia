@@ -28,7 +28,7 @@ const TelegramButton: React.FC<TelegramLoginProps> = ({
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if ( !botName || !ref.current) return;
+    if (!botName || !ref.current) return;
 
     const script = document.createElement("script");
     script.src = "https://telegram.org/js/telegram-widget.js?7";
