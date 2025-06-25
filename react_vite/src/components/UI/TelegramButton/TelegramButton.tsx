@@ -13,7 +13,6 @@ type TelegramUser = {
 type TelegramLoginProps = {
   botName: string;
   onAuth: (user: TelegramUser) => void;
-  shouldRender?: boolean;
   buttonSize?: "large" | "medium" | "small";
   cornerRadius?: number;
   requestAccess?: "write" | "read";
@@ -22,7 +21,6 @@ type TelegramLoginProps = {
 const TelegramButton: React.FC<TelegramLoginProps> = ({
   botName,
   onAuth,
-  shouldRender,
   buttonSize = "medium",
   cornerRadius = 10,
   requestAccess = "write",
@@ -30,7 +28,7 @@ const TelegramButton: React.FC<TelegramLoginProps> = ({
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!shouldRender || !botName || !ref.current) return;
+    if ( !botName || !ref.current) return;
 
     const script = document.createElement("script");
     script.src = "https://telegram.org/js/telegram-widget.js?7";
@@ -54,7 +52,6 @@ const TelegramButton: React.FC<TelegramLoginProps> = ({
     };
   }, [botName, onAuth, buttonSize, cornerRadius, requestAccess]);
 
-  if (!shouldRender) return null;
   return <div ref={ref} />;
 };
 

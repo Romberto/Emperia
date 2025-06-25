@@ -3,8 +3,11 @@ import styled from "./Content.module.css";
 import { Button } from "../Button/Button";
 import { Link } from "react-router";
 import { SOSButton } from "../SOSButton/SOSButton";
+import { useAppSelector } from "../../../hook/useAppSelector";
 
 export const Content: React.FC = () => {
+  const { username } = useAppSelector((state) => state.auth);
+  
   return (
     <>
       <ul className={styled.content}>
@@ -34,9 +37,12 @@ export const Content: React.FC = () => {
         {/*<li><Link to={'/servisec'}><Button variant="white" fontSize={20}>Услуги</Button></Link></li>
            <li><Link to={'/sales'}><Button variant="white" fontSize={20}>Объявления</Button></Link></li>*/}
         <li>
-          <Link to={"/sos"}>
+          {username && (
+            <Link to={"/sos"}>
             <SOSButton />
           </Link>
+          )}
+          
         </li>
       </ul>
     </>
