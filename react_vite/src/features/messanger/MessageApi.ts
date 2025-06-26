@@ -11,7 +11,7 @@ export const messageApi = createApi({
       { status: string },
       { type: SosType; latitude: number; longitude: number }>({
       query: (body) => ({
-        url: "/send_sos",
+        url: "send/sos",
         method: "POST",
         body,
       }),
