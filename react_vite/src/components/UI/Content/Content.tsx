@@ -4,16 +4,32 @@ import { Button } from "../Button/Button";
 import { SOSButton } from "../SOSButton/SOSButton";
 import { useAppSelector } from "../../../hook/useAppSelector";
 import { SosModal } from "../SosModal/SosModal";
+import type { SosType } from "./types";
+import { useSendSosMutation } from "../../../features/messanger/MessageApi";
 
 export const Content: React.FC = () => {
   const { username } = useAppSelector((state) => state.auth);
   const [isModalOpen, setIsModalOpen] = useState(false);
-    const handleSOSClick = (e: React.MouseEvent) => {
-    e.preventDefault(); 
+  const [sendSos] = useSendSosMutation()
+  const handleSOSClick = (e: React.MouseEvent) => {
+    e.preventDefault();
     setIsModalOpen(true);
   };
-    const handleSelect = (type: string) => {
+  const handleSosSelect = (type: SosType) => {
     setIsModalOpen(false);
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const { latitude, longitude } = position.coords;
+      try {
+        await sendSos({ type, latitude, longitude }).unwrap();
+        console.log("SOS отправлено");
+      } catch (err) {
+        console.error("Ошибка при отправке SOS", err);
+      }
+    });
+
+
+    
+
     console.log("Выбран вариант:", type);
     // Здесь можно отправить данные, редиректить и т.д.
   };
@@ -50,10 +66,15 @@ export const Content: React.FC = () => {
             <a href="#" onClick={handleSOSClick}>
               <SOSButton />
             </a>
-          )}       
+          )}
         </li>
       </ul>
-      {isModalOpen && <SosModal onClose={() => setIsModalOpen(false)} onSelect={handleSelect} />}
+      {isModalOpen && (
+        <SosModal
+          onClose={() => setIsModalOpen(false)}
+          onSelect={handleSosSelect}
+        />
+      )}
     </>
   );
 };

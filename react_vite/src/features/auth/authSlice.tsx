@@ -11,7 +11,7 @@ interface AuthState {
 const loadFromLocalStorage = (): AuthState => {
   try {
     return {
-      username:localStorage.getItem("username") ?? undefined,
+      username: "Rom", //localStorage.getItem("username") ?? undefined,
       first_name: localStorage.getItem("tg_first_name") ?? undefined,
       photo_url: localStorage.getItem("tg_photo_url") ?? undefined,
       access_token: localStorage.getItem("access_token") ?? undefined,

@@ -1,7 +1,8 @@
+import type { SosType } from "../Content/types";
 import styled from "./SosModal.module.css";
 export const SosModal: React.FC<{
   onClose: () => void;
-  onSelect: (type: string) => void;
+  onSelect: (type: SosType) => void;
 }> = ({ onClose, onSelect }) => {
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // Если клик был по overlay (а не по вложенной модалке)

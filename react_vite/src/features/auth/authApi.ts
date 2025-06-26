@@ -1,6 +1,6 @@
 // src/features/auth/authApi.ts
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { baseQueryWithReauth } from "./baseQueryWithReauth";
+import { baseQueryWithReauth } from "../../app/baseQueryWithReauth";
 
 export interface TelegramAuthPayload {
   id: number;
