@@ -52,6 +52,7 @@ class Settings(BaseSettings):
     api: ApiPrefix = ApiPrefix()
     db: DataBaseConfig
     bot_token:str
+    chat_id: str
     auth_jwt: AuthJWT = AuthJWT()
 
 

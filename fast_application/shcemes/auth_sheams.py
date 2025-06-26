@@ -22,3 +22,8 @@ class TokenPair(BaseModel):
     access_token: str
     refresh_token: str | None = None
     token_type: str = "Bearer"
+
+class SosRequest(BaseModel):
+    type: str  # "dtp" или "conflict"
+    latitude: float
+    longitude: float
