@@ -15,6 +15,7 @@ router = APIRouter(
 
 BOT_TOKEN = settings.bot_token
 CHAT_ID = settings.chat_id
+THREAD_ID = settings.thread_id
 
 @router.post('/test')
 async def send_test(payload:dict = Depends(_get_current_payload)):
@@ -40,8 +41,12 @@ async def send_sos(data: SosRequest, payload: dict = Depends(_get_current_payloa
     async with httpx.AsyncClient() as client:
         response = await client.post(
             f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage", json={
-                "chat_id": CHAT_ID, "text": text, "parse_mode": "HTML", "disable_web_page_preview": True,
-                }, )
+            "chat_id": CHAT_ID,
+            "message_thread_id": THREAD_ID,  # <-- ID темы
+            "text": text,
+            "parse_mode": "HTML",
+            "disable_web_page_preview": True,
+        })
 
     if response.status_code != 200:
         return {"message": "Ошибка отправки", "error": response.text}

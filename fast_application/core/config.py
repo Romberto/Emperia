@@ -53,6 +53,7 @@ class Settings(BaseSettings):
     db: DataBaseConfig
     bot_token:str
     chat_id: str
+    thread_id: str
     auth_jwt: AuthJWT = AuthJWT()
 
 
