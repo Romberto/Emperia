@@ -4,9 +4,7 @@ import { useAppDispatch } from "../../../hook/useAppDispatch"; // создади
 import styled from "./Header.module.css";
 import logo from "../../../assets/logo-moto.svg";
 import { setUser } from "../../../features/auth/authSlice";
-import {
-  type TelegramAuthPayload,
-} from "../../../features/auth/authApi";
+import { type TelegramAuthPayload } from "../../../features/auth/authApi";
 import TelegramButton from "../TelegramButton/TelegramButton";
 import { useAppSelector } from "../../../hook/useAppSelector";
 import { getCityFromLocation } from "../../../features/geo/geolocation";
@@ -62,6 +60,8 @@ export const Header: React.FC = () => {
       const { access_token, refresh_token } = await loginTelegram(
         payload
       ).unwrap();
+      const result = await loginTelegram(payload);
+      console.log("RESULT:", result);
 
       localStorage.setItem("access_token", access_token);
       localStorage.setItem("tg_first_name", first_name);
