@@ -16,6 +16,10 @@ router = APIRouter(
 BOT_TOKEN = settings.bot_token
 CHAT_ID = settings.chat_id
 
+@router.post('/test')
+async def send_test(payload:dict = Depends(_get_current_payload)):
+    re = payload
+    return {"message": "ok"}
 
 @router.post('/sos')
 async def send_sos(data: SosRequest, payload: dict = Depends(_get_current_payload),
