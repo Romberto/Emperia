@@ -1,0 +1,19 @@
+#!/bin/bash
+# для запуска ./push "обновил API SOS кнопки"
+
+# Проверка на аргумент
+if [ -z "$1" ]; then
+  echo "❌ Укажи текст коммита: ./push \"текст\""
+  exit 1
+fi
+
+COMMIT_MSG="$1"
+
+echo "📦 Добавляем все файлы..."
+git add .
+
+echo "📝 Коммитим: $COMMIT_MSG"
+git commit -m "$COMMIT_MSG"
+
+echo "🚀 Пушим в origin back-prod"
+git push origin back-prod
