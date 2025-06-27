@@ -5,13 +5,13 @@ import styled from "./Header.module.css";
 import logo from "../../../assets/logo-moto.svg";
 import { setUser } from "../../../features/auth/authSlice";
 import {
-  useLoginTelegramMutation,
   type TelegramAuthPayload,
 } from "../../../features/auth/authApi";
 import TelegramButton from "../TelegramButton/TelegramButton";
 import { useAppSelector } from "../../../hook/useAppSelector";
 import { getCityFromLocation } from "../../../features/geo/geolocation";
 import { useEffect, useState } from "react";
+import { useLoginTelegramMutation } from "../../../features/auth/telegramAuthApi";
 
 export const Header: React.FC = () => {
   const [city, setSity] = useState("");

@@ -22,14 +22,6 @@ export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
-    // 🔁 Telegram login — теперь принимает весь payload
-    loginTelegram: builder.mutation<AuthResponse, TelegramAuthPayload>({
-      query: (telegramPayload) => ({
-        url: "/auth/telegram/login",
-        method: "POST",
-        body: telegramPayload,
-      }),
-    }),
     // 👤 Получение текущего пользователя (по токену из localStorage)
     getCurrentUser: builder.query<any, void>({
       query: () => ({
@@ -49,4 +41,4 @@ export const authApi = createApi({
   }),
 });
 
-export const { useLoginTelegramMutation, useGetCurrentUserQuery, useRefreshTokenMutation } = authApi;
+export const { useGetCurrentUserQuery, useRefreshTokenMutation } = authApi;
