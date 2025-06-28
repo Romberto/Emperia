@@ -12,6 +12,10 @@ import { useEffect, useState } from "react";
 import { useLoginTelegramMutation } from "../../../features/auth/telegramAuthApi";
 
 export const Header: React.FC = () => {
+
+
+
+
   const [city, setSity] = useState("");
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -60,8 +64,6 @@ export const Header: React.FC = () => {
       const { access_token, refresh_token } = await loginTelegram(
         payload
       ).unwrap();
-      const result = await loginTelegram(payload);
-      console.log("RESULT:", result);
 
       localStorage.setItem("access_token", access_token);
       localStorage.setItem("tg_first_name", first_name);

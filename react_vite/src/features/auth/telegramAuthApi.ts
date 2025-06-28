@@ -5,6 +5,7 @@ export const telegramAuthApi = createApi({
   reducerPath: "telegramAuthApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://cafeapi.ru/api/v1",
+    credentials: "include"
   }),
   endpoints: (builder) => ({
     loginTelegram: builder.mutation<AuthResponse, TelegramAuthPayload>({
