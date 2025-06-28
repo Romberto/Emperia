@@ -8,7 +8,7 @@ export const telegramAuthApi = createApi({
     credentials: "include"
   }),
   endpoints: (builder) => ({
-    loginTelegram: builder.mutation<AuthResponse, TelegramAuthPayload>({
+    logTelegram: builder.mutation<AuthResponse, TelegramAuthPayload>({
       query: (telegramPayload) => ({
         url: "/auth/telegram/login",
         method: "POST",
@@ -18,4 +18,4 @@ export const telegramAuthApi = createApi({
   }),
 });
 
-export const { useLoginTelegramMutation } = telegramAuthApi;
+export const { useLogTelegramMutation } = telegramAuthApi;

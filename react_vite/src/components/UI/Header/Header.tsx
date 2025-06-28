@@ -9,7 +9,7 @@ import TelegramButton from "../TelegramButton/TelegramButton";
 import { useAppSelector } from "../../../hook/useAppSelector";
 import { getCityFromLocation } from "../../../features/geo/geolocation";
 import { useEffect, useState } from "react";
-import { useLoginTelegramMutation } from "../../../features/auth/telegramAuthApi";
+import { useLogTelegramMutation } from "../../../features/auth/telegramAuthApi";
 
 export const Header: React.FC = () => {
 
@@ -37,7 +37,7 @@ export const Header: React.FC = () => {
   const { username, first_name, photo_url } = useAppSelector(
     (state) => state.auth
   );
-  const [loginTelegram] = useLoginTelegramMutation();
+  const [loginTelegram] = useLogTelegramMutation();
 
   const handleTelegramAuth = async (user: TelegramAuthPayload) => {
     try {
