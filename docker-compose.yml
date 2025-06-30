@@ -27,7 +27,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: "CMD-SHELL", "PGUSER=shop_user PGDATABASE=shop pg_isready"
+      test: ["CMD-SHELL", "PGUSER=shop_user PGDATABASE=shop pg_isready"]
       interval: 5s
       timeout: 3s
       retries: 3
