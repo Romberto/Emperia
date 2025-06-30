@@ -42,7 +42,7 @@ class AuthJWT(BaseModel):
 
 
 class Bot(BaseModel):
-    bot_token:str
+    bot_token: str
     chat_id: str
     thread_id: str
 
@@ -57,7 +57,7 @@ class Settings(BaseSettings):
     run: RunConfig = RunConfig()
     api: ApiPrefix = ApiPrefix()
     db: DataBaseConfig
-    bot:Bot = Bot()
+    bot:Bot
     auth_jwt: AuthJWT = AuthJWT()
 
 
