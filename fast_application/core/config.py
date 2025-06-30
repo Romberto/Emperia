@@ -41,6 +41,12 @@ class AuthJWT(BaseModel):
     refresh_token_expire_days: int = 7
 
 
+class Bot(BaseModel):
+    bot_token:str
+    chat_id: str
+    thread_id: str
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         case_sensitive=False,
@@ -51,9 +57,7 @@ class Settings(BaseSettings):
     run: RunConfig = RunConfig()
     api: ApiPrefix = ApiPrefix()
     db: DataBaseConfig
-    bot_token:str
-    chat_id: str
-    thread_id: str
+    bot:Bot = Bot()
     auth_jwt: AuthJWT = AuthJWT()
 
 
