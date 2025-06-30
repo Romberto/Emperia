@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware  # <-- добавлено
+from fastapi.middleware.cors import CORSMiddleware
 from api import router as api_router
 from core.config import settings
 from models.db_helper import db_helper
@@ -17,11 +17,9 @@ async def lifespan(app: FastAPI):
 
 app_main = FastAPI(lifespan=lifespan)
 
-# ✅ Добавляем CORS Middleware сразу после создания app_main
 app_main.add_middleware(
-    CORSMiddleware,
+    CORSMiddleware,  # без дополнительных параметров
     allow_origins=[
-        "http://localhost:5173",  # dev
         "https://romberto.github.io"
     ],
     allow_credentials=True,
