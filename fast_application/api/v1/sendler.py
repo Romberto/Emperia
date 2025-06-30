@@ -42,7 +42,7 @@ async def send_sos(data: SosRequest, payload: dict = Depends(_get_current_payloa
         response = await client.post(
             f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage", json={
             "chat_id": CHAT_ID,
-            "message_thread_id": THREAD_ID,  # <-- ID темы
+            "message_thread_id": THREAD_ID,
             "text": text,
             "parse_mode": "HTML",
             "disable_web_page_preview": True,
