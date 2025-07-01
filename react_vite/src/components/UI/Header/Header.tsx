@@ -58,6 +58,9 @@ export const Header: React.FC = () => {
       const { access_token, refresh_token } = await loginTelegram(
         payload
       ).unwrap();
+      console.log("*********",
+        refresh_token
+      )
 
       localStorage.setItem("access_token", access_token);
       localStorage.setItem("tg_first_name", first_name);

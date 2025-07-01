@@ -18,7 +18,7 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
     // если access токен протух
     if (result.error?.status === 401) {
       const refresh_token = localStorage.getItem("refresh_token");
-
+      console.log("refresh : ", refresh_token)
       if (refresh_token) {
         // запрос на refresh
         const refreshResult = await baseQuery(
