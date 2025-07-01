@@ -8,7 +8,7 @@ import type { SosType } from "./types";
 import { useSendSosMutation } from "../../../features/messanger/MessageApi";
 
 export const Content: React.FC = () => {
-  const { username } = useAppSelector((state) => state.auth);
+  const {  access_token } = useAppSelector((state) => state.auth);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sendSos] = useSendSosMutation()
   const handleSOSClick = (e: React.MouseEvent) => {
@@ -62,7 +62,7 @@ export const Content: React.FC = () => {
         {/*<li><Link to={'/servisec'}><Button variant="white" fontSize={20}>Услуги</Button></Link></li>
            <li><Link to={'/sales'}><Button variant="white" fontSize={20}>Объявления</Button></Link></li>*/}
         <li>
-          {username && (
+          {access_token && (
             <a href="#" onClick={handleSOSClick}>
               <SOSButton />
             </a>

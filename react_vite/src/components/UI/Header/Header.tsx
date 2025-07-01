@@ -12,6 +12,7 @@ import { getCityFromLocation } from "../../../features/geo/geolocation";
 import { useEffect, useState } from "react";
 import { useLogTelegramMutation } from "../../../features/auth/telegramAuthApi";
 import type { TelegramAuthPayload } from "../../../features/auth/types";
+import { useAppSelector } from "../../../hook/useAppSelector";
 
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -28,9 +29,11 @@ export const Header: React.FC = () => {
   };
   useEffect(() => {
     if (user && !isLoading && !error) {
-      fetchLocation(); // 👈 только после получения user
+      fetchLocation(); 
     }
   }, [user, isLoading, error]);
+
+  const { username, first_name, photo_url, access_token  } = useAppSelector((state) => state.auth);
 
   const [loginTelegram] = useLogTelegramMutation();
   const handleTelegramAuth = async (user: TelegramAuthPayload) => {
@@ -58,10 +61,6 @@ export const Header: React.FC = () => {
       const { access_token, refresh_token } = await loginTelegram(
         payload
       ).unwrap();
-      console.log("*********",
-        refresh_token
-      )
-
       localStorage.setItem("access_token", access_token);
       localStorage.setItem("tg_first_name", first_name);
       localStorage.setItem("refresh_token", refresh_token);
@@ -71,7 +70,7 @@ export const Header: React.FC = () => {
       {
         photo_url && localStorage.setItem("tg_photo_url", photo_url);
       }
-      dispatch(setUser({ username, first_name, photo_url }));
+      dispatch(setUser({ username, first_name, photo_url, access_token }));
     } catch (err) {
       console.error("Ошибка авторизации:", err);
     }
@@ -82,7 +81,7 @@ export const Header: React.FC = () => {
         <img className={styled.logo__img} src={logo} alt="Логотип" />
       </a>
       <div className={styled.auth}>
-        {!user ? (
+        {!access_token  ? (
           <TelegramButton
             botName="SimplyMenuBot"
             onAuth={handleTelegramAuth}
@@ -90,10 +89,10 @@ export const Header: React.FC = () => {
           />
         ) : (
           <div className={styled.user}>
-            {user.photo_url && (
-              <img src={user.photo_url} alt="avatar" className={styled.avatar} />
+            {photo_url && (
+              <img src={photo_url} alt="avatar" className={styled.avatar} />
             )}
-            <span>{user.first_name || user.username}</span>
+            <span>{first_name || username}</span>
             <span>{city}</span>
           </div>
         )}
