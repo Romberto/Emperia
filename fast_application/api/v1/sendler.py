@@ -13,9 +13,9 @@ from shcemes.auth_sheams import SosRequest
 router = APIRouter(
     tags=['Sendler'], prefix='/send', )
 
-BOT_TOKEN = settings.bot_token
-CHAT_ID = settings.chat_id
-THREAD_ID = settings.thread_id
+BOT_TOKEN = settings.bot.bot_token
+CHAT_ID = settings.bot.chat_id
+THREAD_ID = settings.bot.thread_id
 
 @router.post('/test')
 async def send_test(payload:dict = Depends(_get_current_payload)):

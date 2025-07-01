@@ -15,7 +15,7 @@ from shcemes.auth_sheams import TelegramAuthPayload, TokenPair
 router = APIRouter(
     tags=['Auth'],
     prefix="/auth", )
-BOT_TOKEN = settings.bot_token
+BOT_TOKEN = settings.bot.bot_token
 
 
 def verify_telegram_auth(data: dict) -> bool:
