@@ -4,41 +4,35 @@ import { useAppDispatch } from "../../../hook/useAppDispatch"; // создади
 import styled from "./Header.module.css";
 import logo from "../../../assets/logo-moto.svg";
 import { setUser } from "../../../features/auth/authSlice";
-import { type TelegramAuthPayload } from "../../../features/auth/authApi";
+import {
+  useGetCurrentUserQuery
+} from "../../../features/auth/authApi";
 import TelegramButton from "../TelegramButton/TelegramButton";
-import { useAppSelector } from "../../../hook/useAppSelector";
 import { getCityFromLocation } from "../../../features/geo/geolocation";
 import { useEffect, useState } from "react";
 import { useLogTelegramMutation } from "../../../features/auth/telegramAuthApi";
+import type { TelegramAuthPayload } from "../../../features/auth/types";
 
 export const Header: React.FC = () => {
-
-
-
-
-  const [city, setSity] = useState("");
   const dispatch = useAppDispatch();
+  const [city, setSity] = useState("");
+  const { data: user, error, isLoading } = useGetCurrentUserQuery();
+  const fetchLocation = async () => {
+    const location = await getCityFromLocation();
+    if (location.error) {
+      console.error("Ошибка геолокации:", location.error);
+    } else if (location.city) {
+      localStorage.setItem("city", location.city);
+      setSity(location.city);
+    }
+  };
   useEffect(() => {
-    const fetchLocation = async () => {
-      const location = await getCityFromLocation();
+    if (user && !isLoading && !error) {
+      fetchLocation(); // 👈 только после получения user
+    }
+  }, [user, isLoading, error]);
 
-      if (location.error) {
-        console.error("Ошибка геолокации:", location.error);
-      } else {
-        {
-          location.city &&
-            (localStorage.setItem("city", location.city),
-            setSity(location.city));
-        }
-      }
-    };
-    fetchLocation();
-  }, []);
-  const { username, first_name, photo_url } = useAppSelector(
-    (state) => state.auth
-  );
   const [loginTelegram] = useLogTelegramMutation();
-
   const handleTelegramAuth = async (user: TelegramAuthPayload) => {
     try {
       const {
@@ -85,7 +79,7 @@ export const Header: React.FC = () => {
         <img className={styled.logo__img} src={logo} alt="Логотип" />
       </a>
       <div className={styled.auth}>
-        {!username ? (
+        {!user ? (
           <TelegramButton
             botName="SimplyMenuBot"
             onAuth={handleTelegramAuth}
@@ -93,10 +87,10 @@ export const Header: React.FC = () => {
           />
         ) : (
           <div className={styled.user}>
-            {photo_url && (
-              <img src={photo_url} alt="avatar" className={styled.avatar} />
+            {user.photo_url && (
+              <img src={user.photo_url} alt="avatar" className={styled.avatar} />
             )}
-            <span>{first_name || username}</span>
+            <span>{user.first_name || user.username}</span>
             <span>{city}</span>
           </div>
         )}

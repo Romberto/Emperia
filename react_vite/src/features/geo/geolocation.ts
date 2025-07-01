@@ -47,3 +47,5 @@ export async function getCityFromLocation(): Promise<LocationInfo> {
     return { error: error.message };
   }
 }
+
+
