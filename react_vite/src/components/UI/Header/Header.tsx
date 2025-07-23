@@ -28,6 +28,7 @@ export const Header: React.FC = () => {
       setSity(location.city);
     }
   };
+  const navigate = useNavigate();
   useEffect(() => {
     if (user && !isLoading && !error) {
       fetchLocation(); 
@@ -38,7 +39,7 @@ export const Header: React.FC = () => {
 
   const [loginTelegram] = useLogTelegramMutation();
   const handleTelegramAuth = async (user: TelegramAuthPayload) => {
-    const navigate = useNavigate();
+    
     try {
       const {
         id,
@@ -72,8 +73,9 @@ export const Header: React.FC = () => {
       {
         photo_url && localStorage.setItem("tg_photo_url", photo_url);
       }
+      fetchLocation()
       dispatch(setUser({ username, first_name, photo_url, access_token }));
-      navigate("/Emperia")
+      navigate("/")
 
     } catch (err) {
       console.error("Ошибка авторизации:", err);
