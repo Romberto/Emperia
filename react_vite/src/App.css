@@ -1,4 +1,20 @@
-.base{
+:root {
+  --green-club: #9af734;
+  --orange: #ff6800;
+  --yellow: #dff529;
+  --black: #000;
+
+  --main-font: "Roboto", sans-serif;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("./assets/fonts/BeerMoney-08po.ttf");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+.base {
   background: repeating-linear-gradient(
     45deg,
     black,
@@ -9,4 +25,3 @@
   width: 100vw;
   height: 100vh;
 }
-

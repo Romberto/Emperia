@@ -2,19 +2,20 @@
 .btn {
   padding: 0.5rem 1.2rem;
   font-weight: 600;
-  border: none;
+  border: solid 2px var(--green-club);
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.2s, transform 0.1s;
   outline: none;
   display: inline-block;
   width: 100%;
+  font-family: var(--main-font);
+  color: var(--green-club);
 }
 
 /* Черная кнопка */
 .btn--black {
-  background-color: black;
-  color: white;
+  background-color: var(--black);
 }
 .btn--black:hover {
   background-color: #333;
@@ -73,4 +74,9 @@
 }
 .btn--red:focus {
   box-shadow: 0 0 0 3px rgba(255, 77, 77, 0.4);
+}
+
+.btn--bighelp {
+  background-color: var(--black);
+  
 }

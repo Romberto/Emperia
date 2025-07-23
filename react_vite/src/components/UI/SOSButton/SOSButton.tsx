@@ -1,8 +1,8 @@
 import React from "react";
 import { Button } from "../Button/Button";
+import styled from './SOSButton.module.css'
 
 export const SOSButton: React.FC<{ username?: string }> = ({ username }) => {
-
   const sendSOS = async () => {
     if (!navigator.geolocation) {
       alert("Геолокация не поддерживается браузером.");
@@ -47,8 +47,11 @@ export const SOSButton: React.FC<{ username?: string }> = ({ username }) => {
   };
 
   return (
-    <Button onClick={sendSOS} variant="red" fontSize={60}>
-      SOS
-    </Button>
+    <div className={styled.gradient_glow}>
+      <Button variant="bighelp" fontSize={60}>
+        <span>Moto</span>
+        <span style={{ color: "var(--orange)" }}>HELP</span>
+      </Button>
+    </div>
   );
 };

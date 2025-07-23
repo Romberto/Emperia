@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Button.module.css";
 
-type Variant = "black" | "green" | "white" | "red";
+type Variant = "black" | "green" | "white" | "red" | 'bighelp';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;

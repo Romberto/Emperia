@@ -1,0 +1,23 @@
+
+
+.gradient_glow {
+  position: relative;
+  z-index: 0;
+}
+
+.gradient_glow::before {
+  content: '';
+  position: absolute;
+  inset: -4px; /* вынос за границы */
+  z-index: -1;
+  border-radius: inherit;
+
+  background: radial-gradient(
+    circle,
+    var(--green-club) 0%,
+    var(--orange) 100%
+  );
+
+  filter: blur(10px); /* мягкость свечения */
+  opacity: 0.8;
+}

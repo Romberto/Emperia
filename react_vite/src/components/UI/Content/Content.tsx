@@ -42,7 +42,7 @@ export const Content: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Button variant="white" fontSize={20}>
+            <Button variant="black" fontSize={30}>
               Чат (болталка)
             </Button>
           </a>
@@ -53,7 +53,7 @@ export const Content: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Button variant="white" fontSize={20}>
+            <Button variant="black" fontSize={30}>
               Наш телеграмм канал
             </Button>
           </a>
