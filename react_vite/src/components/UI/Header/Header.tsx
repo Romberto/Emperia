@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { useLogTelegramMutation } from "../../../features/auth/telegramAuthApi";
 import type { TelegramAuthPayload } from "../../../features/auth/types";
 import { useAppSelector } from "../../../hook/useAppSelector";
+import { useNavigate } from "react-router";
 
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -37,6 +38,7 @@ export const Header: React.FC = () => {
 
   const [loginTelegram] = useLogTelegramMutation();
   const handleTelegramAuth = async (user: TelegramAuthPayload) => {
+    const navigate = useNavigate();
     try {
       const {
         id,
@@ -71,6 +73,8 @@ export const Header: React.FC = () => {
         photo_url && localStorage.setItem("tg_photo_url", photo_url);
       }
       dispatch(setUser({ username, first_name, photo_url, access_token }));
+      navigate("/Emperia")
+
     } catch (err) {
       console.error("Ошибка авторизации:", err);
     }
