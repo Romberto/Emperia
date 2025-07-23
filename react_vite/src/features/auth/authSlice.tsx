@@ -8,7 +8,8 @@ interface AuthState {
   refresh_token?: string;
 }
 
-const loadFromLocalStorage = (): AuthState => {
+ const loadFromLocalStorage =  (): AuthState => {
+
   try {
     return {
       username: localStorage.getItem("username") ?? undefined,
@@ -16,6 +17,7 @@ const loadFromLocalStorage = (): AuthState => {
       photo_url: localStorage.getItem("tg_photo_url") ?? undefined,
       access_token: localStorage.getItem("access_token") ?? undefined,
       refresh_token: localStorage.getItem("refresh_token") ?? undefined};
+      
   } catch (e) {
     return {};
   }

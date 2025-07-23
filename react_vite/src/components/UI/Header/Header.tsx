@@ -4,9 +4,6 @@ import { useAppDispatch } from "../../../hook/useAppDispatch"; // создади
 import styled from "./Header.module.css";
 import logo from "../../../assets/logo-moto.svg";
 import { setUser } from "../../../features/auth/authSlice";
-import {
-  useGetCurrentUserQuery
-} from "../../../features/auth/authApi";
 import TelegramButton from "../TelegramButton/TelegramButton";
 import { getCityFromLocation } from "../../../features/geo/geolocation";
 import { useEffect, useState } from "react";
@@ -18,7 +15,6 @@ import { useNavigate } from "react-router";
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
   const [city, setSity] = useState("");
-  const { data: user, error, isLoading } = useGetCurrentUserQuery();
   const fetchLocation = async () => {
     const location = await getCityFromLocation();
     if (location.error) {
@@ -30,16 +26,15 @@ export const Header: React.FC = () => {
   };
   const navigate = useNavigate();
   useEffect(() => {
-    if (user && !isLoading && !error) {
-      fetchLocation(); 
-    }
-  }, [user, isLoading, error]);
+    fetchLocation();
+  }, []);
 
-  const { username, first_name, photo_url, access_token  } = useAppSelector((state) => state.auth);
+  const { username, first_name, photo_url, access_token } = useAppSelector(
+    (state) => state.auth
+  );
 
   const [loginTelegram] = useLogTelegramMutation();
   const handleTelegramAuth = async (user: TelegramAuthPayload) => {
-    
     try {
       const {
         id,
@@ -73,10 +68,9 @@ export const Header: React.FC = () => {
       {
         photo_url && localStorage.setItem("tg_photo_url", photo_url);
       }
-      fetchLocation()
       dispatch(setUser({ username, first_name, photo_url, access_token }));
-      navigate("/")
-
+      navigate("/");
+      fetchLocation();
     } catch (err) {
       console.error("Ошибка авторизации:", err);
     }
@@ -87,7 +81,7 @@ export const Header: React.FC = () => {
         <img className={styled.logo__img} src={logo} alt="Логотип" />
       </a>
       <div className={styled.auth}>
-        {!access_token  ? (
+        {!access_token ? (
           <TelegramButton
             botName="SimplyMenuBot"
             onAuth={handleTelegramAuth}

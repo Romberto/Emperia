@@ -14,8 +14,8 @@ import { setSosModulClose } from "./features/moduls/modulsSlise";
 
 function App() {
   const isModalOpen = useAppSelector((state) => state.modul.sosModulIsOpen);
+
   const dispatch = useAppDispatch()
-  console.log(isModalOpen)
   return (
     <>
       <div className="base">

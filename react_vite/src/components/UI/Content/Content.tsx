@@ -35,9 +35,6 @@ export const Content: React.FC = () => {
             </Button>
           </a>
         </li>
-
-        {/*<li><Link to={'/servisec'}><Button variant="white" fontSize={20}>Услуги</Button></Link></li>
-           <li><Link to={'/sales'}><Button variant="white" fontSize={20}>Объявления</Button></Link></li>*/}
         <li>
           {access_token && (
             <a href="#" onClick={() => dispatch(setSosModulOpen())}>
