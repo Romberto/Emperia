@@ -37,6 +37,9 @@ async def send_sos(data: SosRequest, payload: dict = Depends(_get_current_payloa
 
     if user.username:
         text = f"👤 @{user.username}\n" + text
+    else:
+        if user.first_name:
+            text = f"👤 {user.first_name}\n" + text
 
     async with httpx.AsyncClient() as client:
         response = await client.post(
