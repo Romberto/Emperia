@@ -15,7 +15,7 @@ import { setSosModulClose } from "./features/moduls/modulsSlise";
 function App() {
   const isModalOpen = useAppSelector((state) => state.modul.sosModulIsOpen);
 
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   return (
     <>
       <div className="base">
@@ -30,12 +30,8 @@ function App() {
             <Route path={"/sos"} element={<Sos />}></Route>
           </Routes>
         </div>
-        {isModalOpen && (
-          <SosModal
-            onClose={() => dispatch(setSosModulClose())}
-          />
-        )}
       </div>
+      {isModalOpen && <SosModal onClose={() => dispatch(setSosModulClose())} />}
     </>
   );
 }

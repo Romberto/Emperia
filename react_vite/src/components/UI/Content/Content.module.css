@@ -1,4 +1,29 @@
 .content {
+  width: 100%;
+  height: 100vh;
+  background-image: url("../../../assets/contentBack.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  backdrop-filter: blur(8px);
+  position: relative;
+}
+.content::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0; /* добавьте, чтобы покрыть всю область */
+  width: 100%;
+  height: 100%;
+  opacity: 0.8; /* прозрачность вуали */
+  background-color: black; /* цвет вуали */
+  pointer-events: none
+}
+
+.content_list {
+  position: absolute;
+  top: 0;
+  left: 50%;
   display: flex;
   flex-direction: column;
   align-items: center; /* Центровка по горизонтали */
@@ -6,15 +31,17 @@
   margin: 0 auto; /* Центровка самого блока */
   width: 80%; /* Ширина по содержимому (или 100% при необходимости) */
   padding-top: 20px;
-  height:50%;
-  padding-bottom:30px ;
+  height: 50%;
+  padding-bottom: 30px;
+  z-index: 1000;
+  transform: translateX(-50%);
 }
 
-.content li {
+.content_list li {
   list-style: none;
   width: 100%;
 }
-.content li:last-child {
+.content_list li:last-child {
   margin-top: auto;
   animation: pulse 2s infinite;
 }
