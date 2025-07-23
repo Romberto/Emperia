@@ -48,7 +48,7 @@ export const SOSButton: React.FC<{ username?: string }> = ({ username }) => {
 
   return (
     <div className={styled.gradient_glow}>
-      <Button variant="bighelp" fontSize={60}>
+      <Button variant="bighelp" fontSize={60} onClick={sendSOS}>
         <span>Moto</span>
         <span style={{ color: "var(--orange)" }}>HELP</span>
       </Button>
