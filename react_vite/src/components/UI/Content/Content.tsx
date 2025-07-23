@@ -1,38 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "./Content.module.css";
 import { Button } from "../Button/Button";
 import { SOSButton } from "../SOSButton/SOSButton";
 import { useAppSelector } from "../../../hook/useAppSelector";
-import { SosModal } from "../SosModal/SosModal";
-import type { SosType } from "./types";
-import { useSendSosMutation } from "../../../features/messanger/MessageApi";
+import { useAppDispatch } from "../../../hook/useAppDispatch";
+import { setSosModulOpen } from "../../../features/moduls/modulsSlise";
 
 export const Content: React.FC = () => {
-  const {  access_token } = useAppSelector((state) => state.auth);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [sendSos] = useSendSosMutation()
-  const handleSOSClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsModalOpen(true);
-  };
-  const handleSosSelect = (type: SosType) => {
-    setIsModalOpen(false);
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      const { latitude, longitude } = position.coords;
-      try {
-        await sendSos({ type, latitude, longitude }).unwrap();
-        console.log("SOS отправлено");
-      } catch (err) {
-        console.error("Ошибка при отправке SOS", err);
-      }
-    });
+  const dispatch = useAppDispatch();
+  const { access_token } = useAppSelector((state) => state.auth);
 
-
-    
-
-    console.log("Выбран вариант:", type);
-    // Здесь можно отправить данные, редиректить и т.д.
-  };
   return (
     <>
       <ul className={styled.content}>
@@ -63,18 +40,12 @@ export const Content: React.FC = () => {
            <li><Link to={'/sales'}><Button variant="white" fontSize={20}>Объявления</Button></Link></li>*/}
         <li>
           {access_token && (
-            <a href="#" onClick={handleSOSClick}>
+            <a href="#" onClick={() => dispatch(setSosModulOpen())}>
               <SOSButton />
             </a>
           )}
         </li>
       </ul>
-      {isModalOpen && (
-        <SosModal
-          onClose={() => setIsModalOpen(false)}
-          onSelect={handleSosSelect}
-        />
-      )}
     </>
   );
 };

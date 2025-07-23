@@ -7,8 +7,15 @@ import { HelpPage } from "./components/page/HelpPage";
 import { Servisec } from "./components/page/Servisec";
 import { Sos } from "./components/page/Sos";
 import { Sales } from "./components/page/Sales";
+import { SosModal } from "./components/UI/SosModal/SosModal";
+import { useAppSelector } from "./hook/useAppSelector";
+import { useAppDispatch } from "./hook/useAppDispatch";
+import { setSosModulClose } from "./features/moduls/modulsSlise";
 
 function App() {
+  const isModalOpen = useAppSelector((state) => state.modul.sosModulIsOpen);
+  const dispatch = useAppDispatch()
+  console.log(isModalOpen)
   return (
     <>
       <div className="base">
@@ -23,6 +30,11 @@ function App() {
             <Route path={"/sos"} element={<Sos />}></Route>
           </Routes>
         </div>
+        {isModalOpen && (
+          <SosModal
+            onClose={() => dispatch(setSosModulClose())}
+          />
+        )}
       </div>
     </>
   );
