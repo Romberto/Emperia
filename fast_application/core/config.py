@@ -8,6 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 class RunConfig(BaseModel):
     host: str = "0.0.0.0"
     port: int = 8000
+    debug: int = 0
 
 
 class ApiV1Prefix(BaseModel):
@@ -21,6 +22,7 @@ class ApiPrefix(BaseModel):
 
 class DataBaseConfig(BaseModel):
     url: PostgresDsn
+    test_url: PostgresDsn
     echo: bool = False
     echo_pool: bool = False
     max_overflow: int = 10
