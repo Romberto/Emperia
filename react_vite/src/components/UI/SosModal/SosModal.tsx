@@ -8,24 +8,41 @@ export const SosModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const sendSOS = async (typeSos: SosType) => {
     if (!navigator.geolocation) {
-      alert("Геолокация не поддерживается браузером.");
+      alert("Геолокация не поддерживается этим браузером.");
+      onClose();
       return;
     }
 
+    // Проверка разрешения, если API доступен
+    try {
+      const permission = await navigator.permissions?.query?.({
+        name: "geolocation" as PermissionName,
+      });
+
+      if (permission?.state === "denied") {
+        alert("Геолокация отключена. Проверьте настройки Safari или браузера.");
+        onClose();
+        return;
+      }
+    } catch (e) {
+      console.warn("Не удалось проверить разрешения на геолокацию", e);
+      // Safari может не поддерживать Permissions API, пропускаем проверку
+    }
+
+    // Запрос координат
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const { latitude, longitude } = position.coords;
 
         const payload = {
           type: typeSos,
-          latitude: latitude,
-          longitude: longitude,
+          latitude,
+          longitude,
         };
 
         try {
-          await sendSosApi(payload).unwrap(); // запрос к RTK Query API
-
-          onClose(); // Закрыть модалку после успешного SOS
+          await sendSosApi(payload).unwrap(); // RTK Query API вызов
+          onClose(); // Закрыть модалку после успеха
         } catch (err: any) {
           alert(
             `Ошибка при отправке SOS: ${
@@ -35,8 +52,12 @@ export const SosModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }
       },
-      () => {
-        alert("Не удалось определить местоположение.");
+      (error) => {
+        alert(
+          `Не удалось определить местоположение: ${
+            error.message || "Неизвестная ошибка"
+          }`
+        );
         onClose();
       }
     );
@@ -72,8 +93,7 @@ export const SosModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         ) : (
           <div className={styled.spiner_base}>
             <p>отправляю сообщение</p>
-              <div className={styled.spiner}></div>
-            
+            <div className={styled.spiner}></div>
           </div>
         )}
       </div>

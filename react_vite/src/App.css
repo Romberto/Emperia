@@ -4,12 +4,12 @@
   --yellow: #dff529;
   --black: #000;
 
-  --main-font: "Roboto", sans-serif;
+  --main-font: "BeerMoney", sans-serif;
 }
 
 @font-face {
-  font-family: "Roboto";
-  src: url("./assets/fonts/BeerMoney-08po.ttf");
+  font-family: "BeerMoney";
+  src: url("./assets/fonts/BeerMoney-08po.woff2") format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;

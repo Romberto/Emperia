@@ -15,7 +15,7 @@ interface AuthState {
       username: localStorage.getItem("username") ?? undefined,
       first_name: localStorage.getItem("tg_first_name") ?? undefined,
       photo_url: localStorage.getItem("tg_photo_url") ?? undefined,
-      access_token: localStorage.getItem("access_token") ?? "undefined",
+      access_token: localStorage.getItem("access_token") ?? undefined,
       refresh_token: localStorage.getItem("refresh_token") ?? undefined};
       
   } catch (e) {
