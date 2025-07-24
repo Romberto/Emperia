@@ -1,4 +1,5 @@
 import { useSendSosMutation } from "../../../features/messanger/MessageApi";
+import { Button } from "../Button/Button";
 import type { SosType } from "../Content/types";
 import styled from "./SosModal.module.css";
 
@@ -25,12 +26,18 @@ export const SosModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           await sendSosApi(payload).unwrap(); // запрос к RTK Query API
 
           onClose(); // Закрыть модалку после успешного SOS
-        } catch (err) {
-          alert(`Ошибка при отправке SOS. ${err}`);
+        } catch (err: any) {
+          alert(
+            `Ошибка при отправке SOS: ${
+              err.data?.detail || err.error || JSON.stringify(err)
+            }`
+          );
+          onClose();
         }
       },
       () => {
         alert("Не удалось определить местоположение.");
+        onClose();
       }
     );
   };
@@ -44,14 +51,31 @@ export const SosModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   return (
     <div className={styled.modalOverlay} onClick={handleOverlayClick}>
       <div className={styled.modal}>
-        <h2>Выберите ситуацию</h2>
-        <button disabled={isLoading} onClick={() => sendSOS("dtp")}>
-          Попал в ДТП
-        </button>
-        <button disabled={isLoading} onClick={() => sendSOS("conflict")}>
-          Конфликтная ситуация
-        </button>
-        <button onClick={onClose}>Отмена</button>
+        {!isLoading ? (
+          <div className={styled.modal_view}>
+            <h2>Выберите ситуацию</h2>
+            <Button
+              style={{ fontSize: 25, width: "90%" }}
+              disabled={isLoading}
+              onClick={() => sendSOS("dtp")}
+            >
+              Попал в ДТП
+            </Button>
+            <Button
+              style={{ fontSize: 25, width: "90%" }}
+              disabled={isLoading}
+              onClick={() => sendSOS("conflict")}
+            >
+              Конфликтная ситуация
+            </Button>
+          </div>
+        ) : (
+          <div className={styled.spiner_base}>
+            <p>отправляю сообщение</p>
+              <div className={styled.spiner}></div>
+            
+          </div>
+        )}
       </div>
     </div>
   );
