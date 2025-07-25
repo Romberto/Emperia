@@ -5,18 +5,21 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
 class RunConfig(BaseModel):
     host: str = "0.0.0.0"
     port: int = 8000
-    debug: int = 0
+    debug: int = 1
 
 
 class ApiV1Prefix(BaseModel):
-    prefix:str = "/v1"
-    user:str = '/user'
+    prefix: str = "/v1"
+    user: str = "/user"
+
 
 class ApiPrefix(BaseModel):
-    prefix: str = '/api'
+    prefix: str = "/api"
     v1: ApiV1Prefix = ApiV1Prefix()
 
 
@@ -33,12 +36,13 @@ class DataBaseConfig(BaseModel):
         "ck": "ck_%(table_name)s_%(constraint_name)s",
         "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
         "pk": "pk_%(table_name)s",
-        }
+    }
+
 
 class AuthJWT(BaseModel):
     private_key_path: Path = BASE_DIR / "keys" / "jwt-private.pem"
-    public_key_path:Path = BASE_DIR / "keys" / "jwt-public.pem"
-    algorithm: str = 'RS256'
+    public_key_path: Path = BASE_DIR / "keys" / "jwt-public.pem"
+    algorithm: str = "RS256"
     access_token_expire_minutes: int = 3600
     refresh_token_expire_days: int = 30
 
@@ -54,12 +58,12 @@ class Settings(BaseSettings):
         case_sensitive=False,
         env_nested_delimiter="__",
         env_prefix="APP_CONFIG__",
-        env_file='.env'
-        )
+        env_file=".env",
+    )
     run: RunConfig = RunConfig()
     api: ApiPrefix = ApiPrefix()
     db: DataBaseConfig
-    bot:Bot
+    bot: Bot
     auth_jwt: AuthJWT = AuthJWT()
 
 
