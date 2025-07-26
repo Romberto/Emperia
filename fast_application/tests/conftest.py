@@ -7,7 +7,7 @@ from models.base import Base
 from main import app_main
 from fastapi.testclient import TestClient
 from sqlalchemy.pool import NullPool
-
+from sqlalchemy import text
 from models.db_helper import db_helper
 from models.user import UserBase
 
@@ -62,6 +62,7 @@ async def override_get_db(session):
 
 @pytest.fixture(scope="function")
 async def init_test_data(session: AsyncSession):
+    await session.execute(text("DELETE FROM users;;"))
     """Инициализация данных для тестов, создавая пользователей в тестовой базе."""
     test_data_users = [
         {"telegram_id": 23412723454, "first_name": "Testfirst1", "last_name": "Testfirst1", "username": "Testfirst1", "photo_url": "Testfirst1"},
