@@ -60,15 +60,40 @@ async def override_get_db(session):
     yield
     app_main.dependency_overrides.clear()
 
+
 @pytest.fixture(scope="function")
 async def init_test_data(session: AsyncSession):
     await session.execute(text("DELETE FROM users;;"))
     """Инициализация данных для тестов, создавая пользователей в тестовой базе."""
     test_data_users = [
-        {"telegram_id": 23412723454, "first_name": "Testfirst1", "last_name": "Testfirst1", "username": "Testfirst1", "photo_url": "Testfirst1"},
-        {"telegram_id": 2342595454, "first_name": "Testfirst2", "last_name": "Testfirst2", "username": "Testfirst2", "photo_url": "Testfirst2"},
-        {"telegram_id": 2347523454, "first_name": "Testfirst3", "last_name": "Testfirst3", "username": "Testfirst3", "photo_url": "Testfirst3"},
-        {"telegram_id": 234252454, "first_name": "Testfirst4", "last_name": "Testfirst4", "username": "Testfirst4", "photo_url": "Testfirst4"}
+        {
+            "telegram_id": 23412723454,
+            "first_name": "Testfirst1",
+            "last_name": "Testfirst1",
+            "username": "Testfirst1",
+            "photo_url": "Testfirst1",
+        },
+        {
+            "telegram_id": 2342595454,
+            "first_name": "Testfirst2",
+            "last_name": "Testfirst2",
+            "username": "Testfirst2",
+            "photo_url": "Testfirst2",
+        },
+        {
+            "telegram_id": 2347523454,
+            "first_name": "Testfirst3",
+            "last_name": "Testfirst3",
+            "username": "Testfirst3",
+            "photo_url": "Testfirst3",
+        },
+        {
+            "telegram_id": 234252454,
+            "first_name": "Testfirst4",
+            "last_name": "Testfirst4",
+            "username": "Testfirst4",
+            "photo_url": "Testfirst4",
+        },
     ]
 
     # Добавляем пользователей в таблицу
