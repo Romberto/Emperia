@@ -35,7 +35,7 @@ async def _get_current_user(session: AsyncSession, payload: dict):
     return user
 
 
-async def _get_all_user(session: AsyncSession, payload: dict):
+async def _get_all_user(session: AsyncSession):
     stmt = select(UserBase)
     result = await session.scalars(stmt)
     return result.all()
@@ -52,3 +52,4 @@ async def add_user_to_db(session: AsyncSession, payload: UserCreate):
     session.add(user)
     await session.commit()
     await session.refresh(user)
+    return user

@@ -2,8 +2,9 @@ from fastapi.exceptions import HTTPException
 import uuid
 import pytest
 from sqlalchemy import select
+from sqlalchemy.sql.functions import func, count
 
-from api.crud.user_utils import _get_current_user
+from api.crud.user_utils import _get_current_user, _get_all_user
 from models.user import UserBase
 
 
@@ -27,5 +28,17 @@ async def test__get_current_user(session,init_test_data):
 async def test__get_current_user_invalid_id(session, init_test_data, payload, exc):
     with exc:
         await _get_current_user(session, payload)
+
+
+
+async def test_get_all_user(session, init_test_data):
+    stmt = select(func.count()).select_from(UserBase)
+    result = await session.execute(stmt)
+    total_count = result.scalar()
+    users = await _get_all_user(session)
+    assert len(users) == total_count
+
+
+
 
 
