@@ -10,6 +10,7 @@ from sqlalchemy.pool import NullPool
 from sqlalchemy import text
 from models.db_helper import db_helper
 from models.user import UserBase
+from httpx import AsyncClient, ASGITransport
 
 
 # Указываем backend
@@ -100,3 +101,14 @@ async def init_test_data(session: AsyncSession):
     users = [UserBase(**data) for data in test_data_users]
     session.add_all(users)
     await session.commit()
+
+
+BASE_URL_DISH = "http://test/api/v1"
+
+
+@pytest.fixture()
+async def client():
+    async with AsyncClient(
+        transport=ASGITransport(app_main), base_url=BASE_URL_DISH
+    ) as ac:
+        yield ac

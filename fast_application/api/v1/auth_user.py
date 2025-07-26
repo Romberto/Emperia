@@ -19,6 +19,11 @@ router = APIRouter(
 BOT_TOKEN = settings.bot.bot_token
 
 
+@router.get("/")
+async def test():
+    return {"message": "saccess /"}
+
+
 def verify_telegram_auth(data: dict) -> bool:
     auth_hash = data.get("hash")
     if not auth_hash:

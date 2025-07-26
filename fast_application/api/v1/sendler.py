@@ -20,12 +20,6 @@ CHAT_ID = settings.bot.chat_id
 THREAD_ID = settings.bot.thread_id
 
 
-@router.post("/test")
-async def send_test(payload: dict = Depends(_get_current_payload)):
-    re = payload
-    return {"message": "ok"}
-
-
 @router.post("/sos")
 async def send_sos(
     data: SosRequest,
