@@ -8,7 +8,7 @@ if [ -z "$1" ]; then
 fi
 
 COMMIT_MSG="$1"
-
+black .
 echo "📦 Добавляем все файлы..."
 git add .
 
