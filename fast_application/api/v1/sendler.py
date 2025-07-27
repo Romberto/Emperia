@@ -40,8 +40,8 @@ async def send_sos(data: SosRequest, payload: dict = Depends(_get_current_payloa
     else:
         if user.first_name:
             text = f"👤 {user.first_name}\n" + text
-
-    async with httpx.AsyncClient() as client:
+    timeout = httpx.Timeout(10.0, connect=5.0)
+    async with httpx.AsyncClient(timeout=timeout) as client:
         response = await client.post(
             f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage", json={
             "chat_id": CHAT_ID,
