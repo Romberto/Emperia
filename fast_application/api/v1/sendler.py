@@ -11,29 +11,33 @@ from models.user import UserBase
 from shcemes.auth_sheams import SosRequest
 
 router = APIRouter(
-    tags=['Sendler'], prefix='/send', )
+    tags=["Sendler"],
+    prefix="/send",
+)
 
 BOT_TOKEN = settings.bot.bot_token
 CHAT_ID = settings.bot.chat_id
 THREAD_ID = settings.bot.thread_id
 
-@router.post('/test')
-async def send_test(payload:dict = Depends(_get_current_payload)):
-    re = payload
-    return {"message": "ok"}
 
-@router.post('/sos')
-async def send_sos(data: SosRequest, payload: dict = Depends(_get_current_payload),
-                   session: AsyncSession = Depends(db_helper.session_getter)):
+@router.post("/sos")
+async def send_sos(
+    data: SosRequest,
+    payload: dict = Depends(_get_current_payload),
+    session: AsyncSession = Depends(db_helper.session_getter),
+):
     user: UserBase = await _get_current_user(session=session, payload=payload)
     situation_text = {
-        "dtp": "🚗 ДТП", "conflict": "⚠️ Конфликтная ситуация",
-        }.get(data.type, "❓ Неизвестная ситуация")
+        "dtp": "🚗 ДТП",
+        "conflict": "⚠️ Конфликтная ситуация",
+    }.get(data.type, "❓ Неизвестная ситуация")
 
-    text = (f"<b>SOS сигнал!</b>\n"
-            f"📝 Ситуация: {situation_text}\n"
-            f"🌍 Координаты: "
-            f"<a href='https://maps.google.com/?q={data.latitude},{data.longitude}'>Открыть карту</a>\n")
+    text = (
+        f"<b>SOS сигнал!</b>\n"
+        f"📝 Ситуация: {situation_text}\n"
+        f"🌍 Координаты: "
+        f"<a href='https://maps.google.com/?q={data.latitude},{data.longitude}'>Открыть карту</a>\n"
+    )
 
     if user.username:
         text = f"👤 @{user.username}\n" + text
@@ -43,13 +47,15 @@ async def send_sos(data: SosRequest, payload: dict = Depends(_get_current_payloa
     timeout = httpx.Timeout(10.0, connect=5.0)
     async with httpx.AsyncClient(timeout=timeout) as client:
         response = await client.post(
-            f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage", json={
-            "chat_id": CHAT_ID,
-            "message_thread_id": THREAD_ID,
-            "text": text,
-            "parse_mode": "HTML",
-            "disable_web_page_preview": True,
-        })
+            f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
+            json={
+                "chat_id": CHAT_ID,
+                "message_thread_id": THREAD_ID,
+                "text": text,
+                "parse_mode": "HTML",
+                "disable_web_page_preview": True,
+            },
+        )
 
     if response.status_code != 200:
         return {"message": "Ошибка отправки", "error": response.text}
