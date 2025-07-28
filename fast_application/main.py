@@ -19,9 +19,7 @@ app_main = FastAPI(lifespan=lifespan)
 
 app_main.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://romberto.github.io"
-    ],
+    allow_origins=["https://romberto.github.io"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -32,8 +30,5 @@ app_main.include_router(api_router)
 
 if __name__ == "__main__":
     uvicorn.run(
-        "main:app_main",
-        host=settings.run.host,
-        port=settings.run.port,
-        reload=True
+        "main:app_main", host=settings.run.host, port=settings.run.port, reload=True
     )
