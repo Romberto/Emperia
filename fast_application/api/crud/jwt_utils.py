@@ -1,3 +1,5 @@
+import hashlib
+import hmac
 from datetime import datetime, timezone, timedelta
 from typing import Literal
 
@@ -89,3 +91,16 @@ async def _get_payload_refresh_token(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="token invalid"
         )
     return payload
+
+
+def verify_telegram_auth(data: dict, BOT_TOKEN) -> bool:
+    auth_hash = data.get("hash")
+    if not auth_hash:
+        return False
+    check_data = {k: str(v) for k, v in data.items() if k != "hash" and v is not None}
+    data_check_string = "\n".join(f"{k}={v}" for k, v in sorted(check_data.items()))
+    secret_key = hashlib.sha256(BOT_TOKEN.encode("utf-8")).digest()
+    hmac_hash = hmac.new(
+        secret_key, data_check_string.encode("utf-8"), hashlib.sha256
+    ).hexdigest()
+    return hmac.compare_digest(hmac_hash, auth_hash)
