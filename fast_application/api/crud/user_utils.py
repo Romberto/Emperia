@@ -10,7 +10,7 @@ from models.user import UserBase
 from shcemes.auth_sheams import UserCreate
 
 
-async def _get_current_user(session: AsyncSession, payload: dict):
+async def _get_current_user(session: AsyncSession, payload: dict) -> UserBase:
     try:
         user_id = payload["sub"]
 
@@ -48,7 +48,7 @@ async def _get_all_user(session: AsyncSession):
 async def add_user_to_db(session: AsyncSession, payload: UserCreate):
     try:
         user = UserBase(
-            telegram_id=payload.telegram_id,
+            telegram_id=payload.id,
             first_name=payload.first_name,
             last_name=payload.last_name,
             username=payload.username,

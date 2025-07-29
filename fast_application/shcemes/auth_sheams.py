@@ -12,7 +12,7 @@ class TelegramAuthPayload(BaseModel):
 
 
 class UserCreate(BaseModel):
-    telegram_id: int
+    id: int
     first_name: str | None = None
     last_name: str | None = None
     username: str | None = None

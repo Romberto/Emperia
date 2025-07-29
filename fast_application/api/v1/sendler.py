@@ -20,6 +20,21 @@ CHAT_ID = settings.bot.chat_id
 THREAD_ID = settings.bot.thread_id
 
 
+async def send_telegram_message(text: str) -> httpx.Response:
+    timeout = httpx.Timeout(10.0, connect=5.0)
+    async with httpx.AsyncClient(timeout=timeout) as client:
+        return await client.post(
+            f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
+            json={
+                "chat_id": CHAT_ID,
+                "message_thread_id": THREAD_ID,
+                "text": text,
+                "parse_mode": "HTML",
+                "disable_web_page_preview": True,
+            },
+        )
+
+
 @router.post("/sos")
 async def send_sos(
     data: SosRequest,
@@ -44,18 +59,7 @@ async def send_sos(
     else:
         if user.first_name:
             text = f"👤 {user.first_name}\n" + text
-    timeout = httpx.Timeout(10.0, connect=5.0)
-    async with httpx.AsyncClient(timeout=timeout) as client:
-        response = await client.post(
-            f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
-            json={
-                "chat_id": CHAT_ID,
-                "message_thread_id": THREAD_ID,
-                "text": text,
-                "parse_mode": "HTML",
-                "disable_web_page_preview": True,
-            },
-        )
+    response = await send_telegram_message(text)
 
     if response.status_code != 200:
         return {"message": "Ошибка отправки", "error": response.text}
