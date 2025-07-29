@@ -1,19 +1,12 @@
 from types import SimpleNamespace
 
-from fastapi.exceptions import HTTPException
-from itertools import count
-from unittest.mock import patch
 
 import pytest
-from contextlib import nullcontext as not_raise
 
-from pydantic_core._pydantic_core import ValidationError
 from sqlalchemy import select, exists
 from sqlalchemy.sql.functions import func
 
-import api.crud.jwt_utils
 from models.user import UserBase
-from shcemes.auth_sheams import TelegramAuthPayload
 
 
 @pytest.mark.anyio

@@ -158,11 +158,15 @@ async def client():
 
 
 @pytest.fixture()
-def generate_test_access_token():
+async def generate_test_access_token(session):
+    user = UserBase(telegram_id=234234231, first_name="@testUser")
+    session.add(user)
+    await session.commit()
+    await session.refresh(user)
     payload = {
-        "sub": "test-user-id",
-        "first_name": "John",
-        "telegram_id": 123456789,
+        "sub": str(user.id),
+        "first_name": user.first_name,
+        "telegram_id": user.telegram_id,
         Token.field: Token.access,  # важно!
     }
     return encode_jwt(
