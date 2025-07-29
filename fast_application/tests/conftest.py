@@ -2,6 +2,13 @@
 
 import pytest
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+
+from api.crud.jwt_utils import (
+    _get_payload_refresh_token,
+    _get_current_payload,
+    Token,
+    encode_jwt,
+)
 from core.config import settings
 from models.base import Base
 from main import app_main
@@ -50,14 +57,50 @@ async def session(engine):
 
 
 @pytest.fixture(autouse=True)
-async def override_get_db(session):
+async def override_dependencies_refresh(session):
+    async def _get_db_override():
+        yield session
+
+    async def _get_payload_override():
+        return {
+            "sub": "fake-user-id",
+            "first_name": "Fake",
+            "telegram_id": 123456789,
+        }
+
+    app_main.dependency_overrides.clear()
+    app_main.dependency_overrides[db_helper.session_getter] = _get_db_override
+    app_main.dependency_overrides[_get_payload_refresh_token] = _get_payload_override
+
+    yield
+
+    app_main.dependency_overrides.clear()
+
+
+@pytest.fixture(autouse=True)
+async def override_dependencies(session):
     async def _get_db_override():
         yield session
 
     app_main.dependency_overrides.clear()
-    app_main.dependency_overrides[db_helper.session_getter] = (
-        _get_db_override  # get_db — твоя depends-функция
-    )
+    app_main.dependency_overrides[db_helper.session_getter] = _get_db_override
+
+    yield
+
+    app_main.dependency_overrides.clear()
+
+
+@pytest.fixture(autouse=True)
+async def override_current_payload():
+    async def _override():
+        return {
+            "sub": "test-user-id",
+            "first_name": "John",
+            "telegram_id": 123456789,
+            "token_type": "access",
+        }
+
+    app_main.dependency_overrides[_get_current_payload] = _override
     yield
     app_main.dependency_overrides.clear()
 
@@ -112,3 +155,24 @@ async def client():
         transport=ASGITransport(app_main), base_url=BASE_URL_DISH
     ) as ac:
         yield ac
+
+
+@pytest.fixture()
+async def generate_test_access_token(session):
+    user = UserBase(telegram_id=234234231, first_name="@testUser")
+    session.add(user)
+    await session.commit()
+    await session.refresh(user)
+    payload = {
+        "sub": str(user.id),
+        "first_name": user.first_name,
+        "telegram_id": user.telegram_id,
+        Token.field: Token.access,  # важно!
+    }
+    return encode_jwt(
+        payload=payload,
+        token_type=Token.access,
+        private_key=settings.auth_jwt.private_key_path.read_text(),
+        algorithm=settings.auth_jwt.algorithm,
+        expire_minutes=15,
+    )

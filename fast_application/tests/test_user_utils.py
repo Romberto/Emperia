@@ -48,7 +48,7 @@ async def test_get_all_user(session, init_test_data):
     (
         (
             {
-                "telegram_id": 2312723454,
+                "id": 2312723454,
                 "first_name": "Testfirst1",
                 "last_name": "Testfirst1",
                 "username": "Testfirst1",
@@ -58,7 +58,7 @@ async def test_get_all_user(session, init_test_data):
         ),
         (
             {
-                "telegram_id": 2312723454,
+                "id": 2312723454,
                 "first_name": "Testfirst1",
                 "last_name": "Testfirst1",
                 "username": "Testfirst1",
@@ -68,7 +68,7 @@ async def test_get_all_user(session, init_test_data):
         ),  # добавляет дубль
         (
             {
-                "telegram_id": "34ew53453",
+                "id": "34ew53453",
                 "first_name": "Testfirst1",
                 "last_name": "Testfirst1",
                 "username": "Testfirst1",
@@ -76,15 +76,15 @@ async def test_get_all_user(session, init_test_data):
             },
             pytest.raises(ValidationError),
         ),
-        ({"telegram_id": 0}, not_raise()),
-        ({"telegram_id": -1}, not_raise()),
-        ({"telegram_id": 2**63 - 1}, not_raise()),
-        ({"telegram_id": 2**63}, pytest.raises(HTTPException)),
-        ({"telegram_id": None}, pytest.raises(ValidationError)),
-        ({"telegram_id": "abc"}, pytest.raises(ValidationError)),
-        ({"telegram_id": 9999, "first_name": "A" * 255}, not_raise()),
-        ({"telegram_id": 9999, "first_name": "A" * 256}, pytest.raises(HTTPException)),
-        ({"telegram_id": 10000, "photo_url": "a" * 5000}, not_raise()),
+        ({"id": 0}, not_raise()),
+        ({"id": -1}, not_raise()),
+        ({"id": 2**63 - 1}, not_raise()),
+        ({"id": 2**63}, pytest.raises(HTTPException)),
+        ({"id": None}, pytest.raises(ValidationError)),
+        ({"id": "abc"}, pytest.raises(ValidationError)),
+        ({"id": 9999, "first_name": "A" * 255}, not_raise()),
+        ({"id": 9999, "first_name": "A" * 256}, pytest.raises(HTTPException)),
+        ({"id": 10000, "photo_url": "a" * 5000}, not_raise()),
     ),
 )
 async def test_add_user_to_db(session, payload, exc):
@@ -97,7 +97,7 @@ async def test_add_user_to_db(session, payload, exc):
         stmt = select(func.count()).select_from(UserBase)
         result = await session.execute(stmt)
         new_total_count = result.scalar()
-        assert user.telegram_id == payload.get("telegram_id")
+        assert user.telegram_id == payload.get("id")
         assert total_count == new_total_count - 1
 
 

@@ -15,7 +15,7 @@ from api.crud.user_utils import _get_current_user, add_user_to_db
 from core.config import settings
 from models.db_helper import db_helper
 from models.user import UserBase
-from shcemes.auth_sheams import TelegramAuthPayload, TokenPair
+from shcemes.auth_sheams import TelegramAuthPayload, TokenPair, UserCreate
 
 router = APIRouter(
     tags=["Auth"],
@@ -35,7 +35,7 @@ async def test():
 async def telegram_login(
     payload: TelegramAuthPayload,
     session: AsyncSession = Depends(db_helper.session_getter),
-):
+) -> TokenPair:
     data = payload.model_dump()
     if not verify_telegram_auth(data.copy(), BOT_TOKEN):
         raise HTTPException(status_code=401, detail="Invalid Telegram data!")
@@ -45,9 +45,8 @@ async def telegram_login(
         select(UserBase).where(UserBase.telegram_id == telegram_id),
     )
     user = result.scalars().first()
-
     if not user:
-        await add_user_to_db(session, data)
+        user = await add_user_to_db(session, UserCreate(**data))
     access_token = encode_jwt(
         payload={
             "sub": str(user.id),

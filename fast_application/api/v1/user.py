@@ -24,5 +24,5 @@ async def get_all_users(
     payload: dict = Depends(_get_current_payload),
     session: AsyncSession = Depends(db_helper.session_getter),
 ):
-    users = await _get_all_user(payload=payload, session=session)
+    users = await _get_all_user(session=session)
     return users
