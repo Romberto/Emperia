@@ -169,10 +169,13 @@ async def generate_test_access_token(session):
         "telegram_id": user.telegram_id,
         Token.field: Token.access,  # важно!
     }
-    return encode_jwt(
+    yield encode_jwt(
         payload=payload,
         token_type=Token.access,
         private_key=settings.auth_jwt.private_key_path.read_text(),
         algorithm=settings.auth_jwt.algorithm,
         expire_minutes=15,
     )
+
+    await session.delete(user)
+    await session.commit()
