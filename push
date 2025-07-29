@@ -9,6 +9,9 @@ fi
 
 COMMIT_MSG="$1"
 black .
+cd fast_application
+pytest
+cd ..
 echo "📦 Добавляем все файлы..."
 git add .
 
