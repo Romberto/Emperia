@@ -57,7 +57,7 @@ services:
     entrypoint: >
       sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot
       --email korhoff@mail.ru --agree-tos --no-eff-email
-      -d cafeapi.ru --non-interactive || true"
+      -d promoto64.ru --non-interactive || true"
 
 volumes:
   pgdata:
