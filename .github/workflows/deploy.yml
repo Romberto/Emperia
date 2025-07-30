@@ -22,9 +22,11 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << EOF
-            cd ${{ secrets.DEPLOY_DIR }}
-            git pull origin back-prod
-            docker-compose down
-            docker-compose up -d --build
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+            set -x  # Показывать каждую команду перед выполнением
+            cd ${{ secrets.DEPLOY_DIR }} || exit 1
+            git pull origin back-prod || exit 1
+            docker-compose down || docker compose down || exit 1
+            docker-compose up -d --build || docker compose up -d --build || exit 1
+            set +x
           EOF
