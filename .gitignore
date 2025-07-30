@@ -15,7 +15,6 @@ react_vite/dist
 react_vite/dist-ssr
 react_vite/*.local
 
-
 # Editor directories and files
 react_vite/.vscode/*
 react_vite/!.vscode/extensions.json
