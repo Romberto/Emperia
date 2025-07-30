@@ -57,7 +57,20 @@ services:
     entrypoint: >
       sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot
       --email korhoff@mail.ru --agree-tos --no-eff-email
-      -d promoto64.ru --non-interactive || true"
+      -d motoapi.ru --non-interactive || true"
+
+  certbot-renew:
+    image: certbot/certbot
+    container_name: certbot_renew
+    restart: unless-stopped
+    volumes:
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+    entrypoint: >
+      sh -c "trap exit TERM; while :; do
+        certbot renew --webroot -w /var/www/certbot --quiet --deploy-hook 'nginx -s reload';
+        sleep 12h;
+      done"
 
 volumes:
   pgdata:
