@@ -1,4 +1,5 @@
 # Logs
+.venv
 react_vite/logs
 react_vite/*.log
 react_vite/npm-debug.log*
