@@ -22,9 +22,9 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
-            cd ${{ secrets.DEPLOY_DIR }} && \
-            git pull origin back-prod && \
-            docker-compose down && \
+          ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << EOF
+            cd ${{ secrets.DEPLOY_DIR }}
+            git pull origin back-prod
+            docker-compose down
             docker-compose up -d --build
-          "
+          EOF
