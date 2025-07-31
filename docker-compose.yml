@@ -13,6 +13,8 @@ services:
     depends_on:
       pg:
         condition: service_healthy
+    networks:
+      - frontend
 
   pg:
     image: postgres
@@ -47,6 +49,8 @@ services:
     depends_on:
       - fastapi
     restart: always
+    networks:
+      - frontend
 
   certbot:
     image: certbot/certbot
@@ -57,7 +61,7 @@ services:
     entrypoint: >
       sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot
       --email korhoff@mail.ru --agree-tos --no-eff-email
-      -d motoapi.ru --non-interactive || true"
+      -d motoapi.ru -d promoto64.ru --non-interactive || true"
 
   certbot-renew:
     image: certbot/certbot
@@ -74,3 +78,6 @@ services:
 
 volumes:
   pgdata:
+networks:
+  frontend:
+    external: true
