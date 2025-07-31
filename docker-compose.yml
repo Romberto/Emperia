@@ -61,7 +61,7 @@ services:
     entrypoint: >
       sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot
       --email korhoff@mail.ru --agree-tos --no-eff-email
-      -d motoapi.ru -d promoto64.ru --non-interactive || true"
+      --expand -d motoapi.ru -d promoto64.ru --non-interactive || true"
 
   certbot-renew:
     image: certbot/certbot
