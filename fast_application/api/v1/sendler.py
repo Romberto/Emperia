@@ -43,13 +43,12 @@ async def send_sos(
 ):
     user: UserBase = await _get_current_user(session=session, payload=payload)
     situation_text = {
-        "dtp": "🚗 ДТП",
-        "conflict": "⚠️ Конфликтная ситуация",
+        "dtp": "🚗 произошло ДТП",
+        "conflict": "⚠️ произошла конфликтная ситуация",
     }.get(data.type, "❓ Неизвестная ситуация")
 
     text = (
-        f"<b>SOS сигнал!</b>\n"
-        f"📝 Ситуация: {situation_text}\n"
+        f"<b>Внимание!!! Сработала тревожная кнопка,</b>\n {situation_text}, нужна помощь\n"
         f"🌍 Координаты: "
         f"<a href='https://maps.google.com/?q={data.latitude},{data.longitude}'>Открыть карту</a>\n"
     )
