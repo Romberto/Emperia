@@ -19,7 +19,7 @@ app_main = FastAPI(lifespan=lifespan)
 
 app_main.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://romberto.github.io"],
+    allow_origins=["https://romberto.github.io", "https://promoto64.ru"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
