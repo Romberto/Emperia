@@ -34,6 +34,8 @@ services:
       timeout: 3s
       retries: 3
     restart: always
+    networks:
+      - frontend
 
   nginx:
     image: nginx:alpine
@@ -62,6 +64,7 @@ services:
       sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot
       --email korhoff@mail.ru --agree-tos --no-eff-email
       --expand -d motoapi.ru -d promoto64.ru --non-interactive || true"
+
 
   certbot-renew:
     image: certbot/certbot
