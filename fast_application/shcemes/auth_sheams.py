@@ -35,10 +35,12 @@ class TokenPair(BaseModel):
     refresh_token: str | None = None
     token_type: str = "Bearer"
 
+
 class SosType(str, Enum):
     dtp = "dtp"
     conflict = "conflict"
     distroy = "distroy"
+
 
 class SosRequest(BaseModel):
     type: SosType
