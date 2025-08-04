@@ -1,3 +1,5 @@
+from enum import Enum
+
 from pydantic import BaseModel
 
 
@@ -33,8 +35,12 @@ class TokenPair(BaseModel):
     refresh_token: str | None = None
     token_type: str = "Bearer"
 
+class SosType(str, Enum):
+    dtp = "dtp"
+    conflict = "conflict"
+    distroy = "distroy"
 
 class SosRequest(BaseModel):
-    type: str  # "dtp" или "conflict"
+    type: SosType
     latitude: float
     longitude: float

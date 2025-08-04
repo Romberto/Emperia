@@ -6,7 +6,7 @@ import api.v1.sendler
 from models.user import UserBase
 
 
-@pytest.mark.parametrize("situation", [("dtp"), ("conflict")])
+@pytest.mark.parametrize("situation", [("dtp"), ("conflict"), ("distroy")])
 @patch("api.v1.sendler._get_current_user")
 async def test_send_sos(
     user_mock, client: AsyncClient, generate_test_access_token, situation
