@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 class RunConfig(BaseModel):
-    host: str = "0.0.0.0"
+    host: str = "localhost" #0.0.0.0
     port: int = 8000
     debug: int = 1
 

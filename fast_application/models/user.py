@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import BigInteger
+from sqlalchemy import BigInteger,String
 
+from shcemes.auth_sheams import Role
 from .base import Base
 
 
@@ -13,3 +14,4 @@ class UserBase(Base):
     last_name: Mapped[str | None] = mapped_column(default=None)
     username: Mapped[str | None] = mapped_column(default=None)
     photo_url: Mapped[str | None] = mapped_column(default=None)
+    role:Mapped[str] = mapped_column(String, default=Role.user)

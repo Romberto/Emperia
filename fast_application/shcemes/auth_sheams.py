@@ -40,6 +40,10 @@ class SosType(str, Enum):
     conflict = "conflict"
     distroy = "distroy"
 
+class Role(str, Enum):
+    user = "user"
+    admin = "admin"
+
 class SosRequest(BaseModel):
     type: SosType
     latitude: float
