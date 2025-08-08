@@ -7,6 +7,7 @@ from sqlalchemy import select, exists
 from sqlalchemy.sql.functions import func
 
 from models.user import UserBase
+from shcemes.auth_sheams import Role
 
 
 @pytest.mark.anyio
@@ -126,13 +127,14 @@ async def test_api_telegram_login(
             "sub": "UUIDtoken",
             "first_name": "firstName",
             "telegram_id": 1234567890,
+            "role": Role.user
         }
     ],
 )
 @patch("api.v1.auth.auth_user._get_current_user")
 async def test_refresh_token(user_mock, client: AsyncClient, payload):
     user_mock.return_value = SimpleNamespace(
-        id="user-id-123", first_name="Test", telegram_id=123456789
+        id="user-id-123", first_name="Test", telegram_id=123456789, role=Role.user
     )
 
     response = await client.post("/auth/telegram/refresh")
