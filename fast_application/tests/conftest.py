@@ -140,6 +140,55 @@ async def init_test_data(session: AsyncSession):
             "username": "Testfirst4",
             "photo_url": "Testfirst4",
         },
+        {
+            "telegram_id": 234252455,
+            "first_name": "Testfirst5",
+            "last_name": "Testfirst5",
+            "username": "Testfirst5",
+            "photo_url": "Testfirst5",
+        },
+        {
+            "telegram_id": 234252456,
+            "first_name": "Testfirst6",
+            "last_name": "Testfirst6",
+            "username": "Testfirst6",
+            "photo_url": "Testfirst6",
+        },
+        {
+            "telegram_id": 234252457,
+            "first_name": "Testfirst7",
+            "last_name": "Testfirst7",
+            "username": "Testfirst7",
+            "photo_url": "Testfirst7",
+        },
+        {
+            "telegram_id": 234252458,
+            "first_name": "Testfirst8",
+            "last_name": "Testfirst8",
+            "username": "Testfirst8",
+            "photo_url": "Testfirst8",
+        },
+        {
+            "telegram_id": 234252459,
+            "first_name": "Testfirst9",
+            "last_name": "Testfirst9",
+            "username": "Testfirst9",
+            "photo_url": "Testfirst9",
+        },
+        {
+            "telegram_id": 2342524510,
+            "first_name": "Testfirst10",
+            "last_name": "Testfirst10",
+            "username": "Testfirst10",
+            "photo_url": "Testfirst10",
+        },
+        {
+            "telegram_id": 2342524511,
+            "first_name": "Testfirst11",
+            "last_name": "Testfirst11",
+            "username": "Testfirst11",
+            "photo_url": "Testfirst11",
+        },
     ]
 
     # Добавляем пользователей в таблицу
