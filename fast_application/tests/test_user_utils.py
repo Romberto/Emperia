@@ -101,8 +101,6 @@ async def test_add_user_to_db(session, payload, exc):
         assert total_count == new_total_count - 1
 
 
-from contextlib import nullcontext
-
 import pytest
 import hashlib
 import hmac
@@ -110,8 +108,7 @@ import hmac
 from typing import Dict
 from contextlib import nullcontext as raise_not_det
 
-from api.v1.auth_user import verify_telegram_auth
-from core.config import settings
+from api.v1.auth.auth_user import verify_telegram_auth
 
 BOT_TOKEN = "settings.bot.bot_token"  # Убедись, что токен твой
 

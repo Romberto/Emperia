@@ -77,7 +77,7 @@ from contextlib import nullcontext as does_not_raise
         ),
     ],
 )
-@patch("api.v1.auth_user.verify_telegram_auth")
+@patch("api.v1.auth.auth_user.verify_telegram_auth")
 async def test_api_telegram_login(
     verify_telegram_mock,
     client: AsyncClient,
@@ -129,7 +129,7 @@ async def test_api_telegram_login(
         }
     ],
 )
-@patch("api.v1.auth_user._get_current_user")
+@patch("api.v1.auth.auth_user._get_current_user")
 async def test_refresh_token(user_mock, client: AsyncClient, payload):
     user_mock.return_value = SimpleNamespace(
         id="user-id-123", first_name="Test", telegram_id=123456789
