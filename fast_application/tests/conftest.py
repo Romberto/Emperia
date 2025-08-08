@@ -19,6 +19,8 @@ from models.db_helper import db_helper
 from models.user import UserBase
 from httpx import AsyncClient, ASGITransport
 
+from shcemes.auth_sheams import Role
+
 
 # Указываем backend
 @pytest.fixture(scope="session")
@@ -168,6 +170,32 @@ async def generate_test_access_token(session):
         "first_name": user.first_name,
         "telegram_id": user.telegram_id,
         Token.field: Token.access,  # важно!
+        "role": Role.user,
+    }
+    yield encode_jwt(
+        payload=payload,
+        token_type=Token.access,
+        private_key=settings.auth_jwt.private_key_path.read_text(),
+        algorithm=settings.auth_jwt.algorithm,
+        expire_minutes=15,
+    )
+
+    await session.delete(user)
+    await session.commit()
+
+
+@pytest.fixture()
+async def generate_test_access_token_is_admin(session):
+    user = UserBase(telegram_id=234234231, first_name="@testUser")
+    session.add(user)
+    await session.commit()
+    await session.refresh(user)
+    payload = {
+        "sub": str(user.id),
+        "first_name": user.first_name,
+        "telegram_id": user.telegram_id,
+        Token.field: Token.access,  # важно!
+        "role": Role.admin,
     }
     yield encode_jwt(
         payload=payload,
