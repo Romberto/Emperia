@@ -127,7 +127,7 @@ async def test_api_telegram_login(
             "sub": "UUIDtoken",
             "first_name": "firstName",
             "telegram_id": 1234567890,
-            "role": Role.user
+            "role": Role.user,
         }
     ],
 )

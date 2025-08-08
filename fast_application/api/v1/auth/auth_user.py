@@ -52,7 +52,7 @@ async def telegram_login(
             "sub": str(user.id),
             "first_name": user.first_name,
             "telegram_id": user.telegram_id,
-            "role": user.role
+            "role": user.role,
         },
         token_type=Token.access,
     )
@@ -79,7 +79,7 @@ async def refresh_token(
             "sub": str(user.id),
             "first_name": user.first_name,
             "telegram_id": user.telegram_id,
-            "role": user.role
+            "role": user.role,
         },
         token_type=Token.access,
     )
